@@ -1,0 +1,104 @@
+@import "./fonts.scss";
+
+html, body {
+  margin: 0;
+  overflow: hidden;
+  user-select: none;
+}
+
+body {
+  font-family: "Pixelify Sans", sans-serif;
+  background: black;
+  color: white;
+}
+
+.novel-game-main {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.main-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.novel-reader {
+  p {
+    white-space: pre-wrap;
+    font-size: 24px;
+  }
+
+  .reader-toolbar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    display: flex;
+    justify-content: flex-end;
+    align-content: center;
+  }
+}
+
+.reader-pause {
+  .return-button {
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: flex;
+  }
+}
+
+.button {
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 25%;
+  }
+  &:hover:not(.disabled) {
+    background: white;
+    color: black;
+  }
+}
+
+.menu-button {
+  font-size: 40px;
+  padding: 10px 20px;
+  border: 5px solid white;
+  &:hover:not(.disabled) {
+    font-weight: 700;
+    padding: 10px 30px;
+  }
+}
+
+.toolbar-button {
+  display: flex;
+  padding: 10px;
+  .icon {
+    background-color: white;
+    width: 48px;
+    height: 48px;
+    mask-size: cover;
+  }
+  &:hover:not(.disabled) {
+    .icon {
+      background-color: black;
+    }
+  }
+}
