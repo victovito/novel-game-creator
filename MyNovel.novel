@@ -1,0 +1,28 @@
+TITLE "Alice's Adventures in Wonderland"
+AUTHOR "Lewis Carroll"
+ENTRY #dialog_block
+PRELOAD "./background-music.wav" $bg-music
+LOCK
+
+#dialog_block
+    [play $bg-music]
+
+    @"Alice"
+        But I don’t want to go among mad people.
+    @
+
+    @"Cat"
+        Oh, you can’t help that,
+        we’re all mad here. I’m mad.
+        You’re mad.
+    @
+
+    @"Alice"
+        How do you know I’m mad?
+    @
+
+    @"Cat"
+        You must be,
+        or you wouldn’t have come here.
+    @
+#

@@ -3,7 +3,10 @@ import fs from "fs";
 
 async function requestNovel(event: IpcMainEvent) {
     const dialogRes = await dialog.showOpenDialog({
-        properties: ["openFile"]
+        properties: ["openFile"],
+        filters: [
+            { name: "Novel file", extensions: ["novel"] }
+        ]
     });
     if (!dialogRes.canceled) {
         const file = fs.readFileSync(dialogRes.filePaths[0]).toString();
