@@ -61,7 +61,7 @@ Check all the [available header operators](#available-header-operators).
 
 ### Blocks
 
-A block is a sequence of dialogs that can be referenced in the root level of the file, meaning you can't define a block inside another block. You can give a block any name, as long as it's unique and doesn't contain spaces. To define a block, use the following syntax:
+A block is a sequence of dialogs that can be defined in the root level of the file, meaning you can't define a block inside another block. You can give a block any name, as long as it's unique and doesn't contain spaces. To define a block, use the following syntax:
 ```novel
 #my_new_block
     
@@ -122,11 +122,13 @@ Commands can be placed inside blocks or dialogs. They need to be the only thing 
 ```
 Check all the [available commands](#available-commands).
 
-### Clickable texts
+### Choice
 
-Clickable texts are texts that execute a command when clicked. Just like texts, a clickable text can only exist inside a dialog. To create a clickable text, use the following syntax:
+Choices are a set of one or more options that are clickable. Each option have a text and can be attached multiple commands that will run if the option is clicked. Choices can only be placed inside dialogs. To create a choice, use the following syntax:
 ```novel
-{TEXT GOES HERE} [<command> ...]
+?
+    {TEXT GOES HERE} [<command> ...]
+?
 ```
 For example:
 ```novel
@@ -134,9 +136,11 @@ For example:
     @"Friend"
         Hey, regarding tonight...
         What do you want for dinner?
-        {Hamburgers} [goto #scenario1]
-        {Pizza} [goto #scenario2]
-        {Anything is fine} [goto #scenario3]
+        ?
+            {Hamburgers} [goto #scenario1]
+            {Pizza} [goto #scenario2]
+            {Anything is fine} [goto #scenario3]
+        ?
     @
 #
 
@@ -160,7 +164,7 @@ For example:
 ```
 ## Documentation
 
-Here is described every header operator and command, as well as their use with examples.
+Here is described every header operator and command, as well as examples on how to use them.
 
 ### Available header operators
 
