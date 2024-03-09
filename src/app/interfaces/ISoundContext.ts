@@ -1,4 +1,4 @@
-export default interface Sound {
+export default interface ISoundContext {
     enabled: boolean;
     level: number;
 }

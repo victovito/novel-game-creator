@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
 import NovelContext from './contexts/NovelContext';
 import SoundContext from './contexts/SoundContext';
-import Novel from './interfaces/Novel';
-import Sound from './interfaces/Sound';
+import INovelContext from './interfaces/INovelContext';
+import ISoundContext from './interfaces/ISoundContext';
 
 import MainMenu from './screens/MainMenu';
 import NovelReader from './screens/NovelReader';
 import ReaderPause from './screens/ReaderPause';
 
 function NovelGame() {
-    const [novel, setNovel] = useState<Novel | undefined>();
-    const [sound, setSound] = useState<Sound>({ enabled: true, level: 1 });
+    const [novel, setNovel] = useState<INovelContext | undefined>();
+    const [sound, setSound] = useState<ISoundContext>({ enabled: true, level: 1 });
 
     return (
         <NovelContext.Provider value={{ novel, setNovel }}>

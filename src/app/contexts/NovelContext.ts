@@ -1,9 +1,9 @@
 import React, { createContext, useContext } from "react";
-import Novel from "../interfaces/Novel";
+import INovelContext from "../interfaces/INovelContext";
 
 export interface NovelContextType {
-    novel: Novel;
-    setNovel: React.Dispatch<React.SetStateAction<Novel>>
+    novel: INovelContext;
+    setNovel: React.Dispatch<React.SetStateAction<INovelContext>>
 }
 
 const NovelContext = createContext<NovelContextType | undefined>(undefined);

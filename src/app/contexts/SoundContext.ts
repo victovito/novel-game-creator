@@ -1,9 +1,9 @@
 import React, { createContext, useContext } from "react";
-import Sound from "../interfaces/Sound";
+import ISoundContext from "../interfaces/ISoundContext";
 
 export interface SoundContextType {
-    sound: Sound;
-    setSound: React.Dispatch<React.SetStateAction<Sound>>
+    sound: ISoundContext;
+    setSound: React.Dispatch<React.SetStateAction<ISoundContext>>
 }
 
 const SoundContext = createContext<SoundContextType | undefined>(undefined);
