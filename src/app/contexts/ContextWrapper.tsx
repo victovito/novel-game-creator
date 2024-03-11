@@ -1,13 +1,13 @@
 import React, { PropsWithChildren, useEffect, useState } from 'react';
 
-import INovelContext from '../interfaces/INovelContext';
+import INovelFileContext from '../interfaces/INovelFileContext';
 import ISoundContext from '../interfaces/ISoundContext';
 
-import NovelContext from './NovelContext';
+import NovelFileContext from './NovelFileContext';
 import SoundContext from './SoundContext';
 
 function ContextWrapper({ children }: PropsWithChildren) {
-    const [novel, setNovel] = useState<INovelContext | undefined>(initNovel);
+    const [novel, setNovel] = useState<INovelFileContext | undefined>(initNovel);
     const [sound, setSound] = useState<ISoundContext>(initSound);
 
     useEffect(() => {
@@ -19,17 +19,17 @@ function ContextWrapper({ children }: PropsWithChildren) {
     }, [sound]);
 
     return (
-        <NovelContext.Provider value={{ novel, setNovel }}>
+        <NovelFileContext.Provider value={{ novelFile: novel, setNovelFile: setNovel }}>
             <SoundContext.Provider value={{ sound, setSound }}>
                 {children}
             </SoundContext.Provider>
-        </NovelContext.Provider>
+        </NovelFileContext.Provider>
     );
 }
 
 export default ContextWrapper;
 
-function initNovel(): INovelContext | undefined {
+function initNovel(): INovelFileContext | undefined {
     const novel = localStorage.getItem("novel-context");
     return novel ? JSON.parse(novel) : undefined;
 }

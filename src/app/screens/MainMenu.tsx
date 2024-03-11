@@ -2,15 +2,15 @@ import { ipcRenderer } from 'electron';
 import React, { useContext, useEffect, useState } from 'react';
 import MenuButton from '../components/MenuButton';
 import { useNavigate } from 'react-router-dom';
-import { useNovelContext } from '../contexts/NovelContext';
+import { useNovelFileContext } from '../contexts/NovelFileContext';
 
 function MainMenu() {
     const navigate = useNavigate();
-    const novelContext = useNovelContext();
+    const novelFinalContext = useNovelFileContext();
 
     useEffect(() => {
         api.onNovelRetrieved((path, content) => {
-            novelContext.setNovel({ path, content });
+            novelFinalContext.setNovelFile({ path, content });
             navigate("novel");
         });
     }, []);
