@@ -1,11 +1,11 @@
 TITLE "Alice's Adventures in Wonderland"
 AUTHOR "Lewis Carroll"
 ENTRY #dialog_block
-PRELOAD "./background-music.wav" $bg-music
+PRELOAD "./background-music.wav" $bg_music
 LOCK
 
 #dialog_block
-    [play $bg-music]
+    [play $bg_music]
 
     @"Alice"
         But I don’t want to go among mad people.

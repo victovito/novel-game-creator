@@ -21,11 +21,11 @@ A novel is a story that can be played. It's essentially a text file containg a s
 TITLE "Alice's Adventures in Wonderland"
 AUTHOR "Lewis Carroll"
 ENTRY #dialog_block
-PRELOAD "./background-music.wav" $bg-music
+PRELOAD "./background-music.wav" $bg_music
 LOCK
 
 #dialog_block
-    [play $bg-music]
+    [play $bg_music]
 
     @"Alice"
         But I don’t want to go among mad people.
@@ -48,16 +48,20 @@ LOCK
 #
 ```
 
-## Novel file syntax
+# Novel file syntax
 
-### Header operators
+### Headers
 
-Header operators are defined in the root of the file and are used to setup a novel. The syntax of a header operator is as following:
+Headers are defined in the root of the file and are used to setup a novel. The syntax of a header is as following:
 ```novel
-<OPERATOR> <arg1> <arg2> ...
+<HEADER> <arg1> <arg2> ...
 ```
 
-Check all the [available header operators](#available-header-operators).
+Check all the [available headers](#available-headers).
+
+### Variables
+You can define and use variables when writing a novel. To define them, check the [DEFINE header](#define).
+Variables can hold values and be used as arguments when using [commands](#commands) or to replace sections on texts. Refer to the [dialog section](#dialogs) to understant how variables can be used on texts.
 
 ### Blocks
 
@@ -113,6 +117,20 @@ If there is multiple dialogs inside a block, they will show one after the other 
 
 #
 ```
+You can use a variable inside a text by wrapping it around curly brackets: `{$my_var}`. It will be replaced with it's value in runtime. For example:
+```novel
+#my_block
+    
+    @"Stranger"
+        Hello, {$name}...
+    @
+    
+    @"You"
+        How do you know my name?
+    @
+
+#
+```
 
 ### Commands
 
@@ -128,6 +146,12 @@ Choices are a set of one or more options that are clickable. Each option have a 
 ```novel
 ?
     {TEXT GOES HERE} [<command> ...]
+?
+```
+To use more than one commands, simply place them one after another.
+```novel
+?
+    {Do things} [goto #other_block] [play $clapping] [play $cheering]
 ?
 ```
 For example:
@@ -162,53 +186,69 @@ For example:
     @
 #
 ```
-## Documentation
+<br/>
 
-Here is described every header operator and command, as well as examples on how to use them.
+# Documentation
 
-### Available header operators
+Here is described every header and command, as well as examples on how to use them.
+
+## Available headers
 
 #### TITLE
 ```novel
 TITLE "My Novel"
 ```
-| Operator  | Arguments | Description       |
+| Header    | Arguments | Description       |
 | :-------- | :-------- | :---------------  |
 | `TITLE`   | `string`  | Sets the title    |
+<br/>
 
 #### AUTHOR
 ```novel
 AUTHOR "My name"
 ```
-| Operator  | Arguments | Description       |
+| Header    | Arguments | Description       |
 | :-------- | :-------- | :---------------- |
 | `AUTHOR`  | `string`  | Sets the author   |
+<br/>
 
 #### ENTRY
 ```novel
 ENTRY #my_block
 ```
-| Operator  | Arguments | Description                                                               |
+| Header    | Arguments | Description                                                               |
 | :-------- | :-------- | :-------------------------                                                |
 | `ENTRY`   | `block`   | Defines the entry point of the novel, meaning the first block to show up  |
+<br/>
+
+#### DEFINE
+```novel
+DEFINE $my_var value
+```
+| Header    | Arguments | Description                                                               |
+| :-------- | :-------- | :-------------------------                                                |
+| `DEFINE`   | `variable`, `value`   | Defines a new variable. It's value can be a number or a string  |
+<br/>
 
 #### PRELOAD
 ```novel
 PRELOAD "./image.jpeg" $my_variable
 ```
-| Operator  | Arguments          | Description                                          |
+| Header    | Arguments          | Description                                          |
 | :-------- | :----------------  | :-------------------------                           |
-| `PRELOAD` | `string, variable` | Preloads a resource and saves it on a new variable   |
+| `PRELOAD` | `string`, `variable` | Preloads a resource and saves it on a new variable   |
+<br/>
 
 #### LOCK
 ```novel
 LOCK
 ```
-| Operator  | Arguments | Description                        |
+| Header    | Arguments | Description                        |
 | :-------- | :-------  | :-------------------------         |
 | `LOCK`    |           | Locks a novel making it readonly   |
+<br/>
 
-### Available commands
+## Available commands
 
 #### `[goto <target>]`
 Goes immediatly to a block.
@@ -231,9 +271,10 @@ Example:
     @
 #
 ```
+<br/>
 
 #### `[play <audio> <transition>]`
-Plays the audio from a variable. The variable **must** have an audio assigned first using the [PRELOAD](#preload) operator.
+Plays the audio from a variable. The variable **must** have an audio assigned first using the [PRELOAD](#preload) header.
 | Argument      | Type       | Required  | Description                                  |
 | :--------     | :--------  | :-------- | :---------------                             |
 | `audio`       | `variable` | &#x2611;  | Variable containing the audio to be played   |
@@ -251,6 +292,7 @@ PRELOAD "./roaaaarrr.wav" $my_audio
     @
 #
 ```
+<br/>
 
 #### `[stop <audio> <transition>]`
 Stops an audio.
