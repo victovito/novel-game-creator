@@ -11,7 +11,7 @@ function MainMenu() {
     useEffect(() => {
         api.onNovelRetrieved((path, content) => {
             novelFinalContext.setNovelFile({ path, content });
-            navigate("novel");
+            navigate("reader");
         });
     }, []);
 

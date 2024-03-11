@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import ReaderToolbar from '../components/ReaderToolbar';
-import { useNovelFileContext } from '../contexts/NovelFileContext';
-import { parseNovel } from '../engine/NovelParser';
-import NovelObject from '../engine/structural/NovelObject';
+import { useNovelFileContext } from '../../contexts/NovelFileContext';
+import { parseNovel } from '../../engine/NovelParser';
+import NovelObject from '../../engine/structural/NovelObject';
+import ReaderPause from './ReaderPause';
+import ReaderMain from './ReaderMain';
+import ReaderContextWrapper from '../../contexts/reader/ReaderContextWrapper';
+import { usePausedContext } from '../../contexts/reader/PausedContext';
 
 function NovelReader() {
     const {novelFile, setNovelFile} = useNovelFileContext();
     const [novel, setNovel] = useState<NovelObject>();
-
+    const {paused, setPaused} = usePausedContext();
+    
     useEffect(() => {
         api.onNovelUpdated((content) => {
             setNovelFile({
@@ -42,8 +46,7 @@ function NovelReader() {
 
     return (
         <div className='novel-reader'>
-            <ReaderToolbar />
-            <p>{novel ? novel.title : 'failed'}</p>
+            {!paused ? <ReaderMain /> : <ReaderPause /> }
         </div>
     );
 }

@@ -5,12 +5,12 @@ import { useSoundContext } from '../contexts/SoundContext';
 import menuIcon from "../assets/icons/Menu.svg";
 import soundOnIcon from "../assets/icons/Sound_On.svg";
 import soundOffIcon from "../assets/icons/Sound_Off.svg";
-import { useNavigate } from 'react-router-dom';
+import { usePausedContext } from '../contexts/reader/PausedContext';
 
 function ReaderToolbar() {
     const {sound, setSound} = useSoundContext();
-    const navigate = useNavigate();
-
+    const {setPaused} = usePausedContext();
+    
     function toogleSound() {
         setSound({
             enabled: !sound.enabled,
@@ -21,7 +21,7 @@ function ReaderToolbar() {
     return (
         <div className='reader-toolbar'>
             <ToolbarButton icon={sound.enabled ? soundOnIcon : soundOffIcon} onPress={toogleSound} />
-            <ToolbarButton icon={menuIcon} onPress={() => navigate("pause")} />
+            <ToolbarButton icon={menuIcon} onPress={() => setPaused(true)} />
         </div>
     );
 }

@@ -6,20 +6,20 @@ import ISoundContext from '../interfaces/ISoundContext';
 import NovelFileContext from './NovelFileContext';
 import SoundContext from './SoundContext';
 
-function ContextWrapper({ children }: PropsWithChildren) {
-    const [novel, setNovel] = useState<INovelFileContext | undefined>(initNovel);
+function GlobalContextWrapper({ children }: PropsWithChildren) {
+    const [novelFile, setNovelFile] = useState<INovelFileContext | undefined>(initNovel);
     const [sound, setSound] = useState<ISoundContext>(initSound);
 
     useEffect(() => {
-        novel && localStorage.setItem("novel-context", JSON.stringify(novel));
-    }, [novel]);
+        novelFile && localStorage.setItem("novel-context", JSON.stringify(novelFile));
+    }, [novelFile]);
 
     useEffect(() => {
         sound && localStorage.setItem("sound-context", JSON.stringify(sound));
     }, [sound]);
 
     return (
-        <NovelFileContext.Provider value={{ novelFile: novel, setNovelFile: setNovel }}>
+        <NovelFileContext.Provider value={{ novelFile, setNovelFile }}>
             <SoundContext.Provider value={{ sound, setSound }}>
                 {children}
             </SoundContext.Provider>
@@ -27,7 +27,7 @@ function ContextWrapper({ children }: PropsWithChildren) {
     );
 }
 
-export default ContextWrapper;
+export default GlobalContextWrapper;
 
 function initNovel(): INovelFileContext | undefined {
     const novel = localStorage.getItem("novel-context");
