@@ -6,6 +6,7 @@ import ReaderPause from './ReaderPause';
 import ReaderMain from './ReaderMain';
 import ReaderContextWrapper from '../../contexts/reader/ReaderContextWrapper';
 import { usePausedContext } from '../../contexts/reader/PausedContext';
+import { useNavigate } from 'react-router-dom';
 
 function NovelReader() {
     const {novelFile, setNovelFile} = useNovelFileContext();

@@ -6,7 +6,6 @@ type props = {
     disabled?: boolean;
 }
 
-
 function ToolbarButton({ icon, onPress, disabled}: props) {
     return (
         <button className={`button toolbar-button ${disabled ? 'disabled' : ''}`} onClick={() => !disabled && onPress()}>
