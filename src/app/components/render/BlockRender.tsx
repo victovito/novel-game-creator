@@ -1,5 +1,5 @@
 import React from 'react';
-import NovelState from '../../engine/objects/NovelStateManager';
+import NovelState from '../../engine/objects/NovelState';
 import DialogRender from './DialogRender';
 
 type props = {

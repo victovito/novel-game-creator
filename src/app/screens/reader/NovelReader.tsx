@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { useNovelFileContext } from '../../contexts/NovelFileContext';
 import { useNovelContext } from '../../contexts/reader/NovelContext';
@@ -6,7 +6,6 @@ import { usePausedContext } from '../../contexts/reader/PausedContext';
 
 import { parseNovel } from '../../engine/NovelParser';
 import Novel from '../../engine/objects/Novel';
-import NovelState from '../../engine/objects/NovelStateManager';
 import NovelParsingError from '../../engine/errors/NovelParsingError';
 
 import ReaderPause from './ReaderPause';

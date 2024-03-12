@@ -32,10 +32,9 @@ export default class NovelState {
 
     constructor(novel: Novel, state?: INovelStateData) {
         this.novel = novel;
-        if (!novel) return;
         if (state && Object.keys(state).length > 0) {
             this.data = state;
-            this.applyStateVariables();
+            if (novel) this.applyStateVariables();
         } else {
             this.initEmptyState();
         }
@@ -88,6 +87,7 @@ export default class NovelState {
     }
 
     private initEmptyState() {
+        if (!this.novel) return;
         const block = this.novel.entry || Array.from(this.novel.blocks.values())[0];
         this.data = {
             block: {

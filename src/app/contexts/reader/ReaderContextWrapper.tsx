@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useEffect, useState } from "react";
 
 import Novel from "../../engine/objects/Novel";
-import NovelState, { INovelStateData } from "../../engine/objects/NovelStateManager";
+import NovelState, { INovelStateData } from "../../engine/objects/NovelState";
 
 import NovelContext from "./NovelContext";
 import StateContext from "./StateContext";
@@ -38,7 +38,7 @@ function initNovel(): Novel {
 }
 
 function initState(): NovelState {
-    const data = localStorage.getItem("reader-state-data");
+    const data = sessionStorage.getItem("reader-state-data");
     return new NovelState(null, data ? JSON.parse(data) as INovelStateData : null);
 }
 

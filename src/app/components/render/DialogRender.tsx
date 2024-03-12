@@ -1,5 +1,5 @@
 import React from 'react';
-import NovelState from '../../engine/objects/NovelStateManager';
+import NovelState from '../../engine/objects/NovelState';
 import Text from '../../engine/expressions/Text';
 import Question from '../../engine/scopes/Question';
 import TextRender from './TextRender';

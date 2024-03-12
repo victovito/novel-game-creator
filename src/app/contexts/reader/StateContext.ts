@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from "react";
-import NovelState, { INovelStateData } from "../../engine/objects/NovelStateManager";
+import NovelState from "../../engine/objects/NovelState";
 
 export interface StateContextType {
     state: NovelState;

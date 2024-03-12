@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import ReaderToolbar from './ReaderToolbar';
 import { useNovelContext } from '../contexts/reader/NovelContext';
-import NovelState from '../engine/objects/NovelStateManager';
+import NovelState from '../engine/objects/NovelState';
 import { useStateContext } from '../contexts/reader/StateContext';
 import BlockRender from './render/BlockRender';
 import Question from '../engine/scopes/Question';
@@ -31,16 +31,20 @@ function NovelRender() {
 
     useEffect(() => {
         if (!novel) return;
-        const newState = new NovelState(novel);
+        const newState = new NovelState(novel, state?.data);
         setState(newState);
     }, [novel]);
 
     useEffect(() => {
         if (state) {
-            setUpEvents();
-            if (state.currentCommand) {
-                next();
-                novel.run(state.currentCommand);
+            if (!state.novel) {
+                setState(new NovelState(novel, state.data));
+            } else {
+                setUpEvents();
+                if (state.currentCommand) {
+                    next();
+                    novel.run(state.currentCommand);
+                }
             }
         } else {
             setState(new NovelState(novel));

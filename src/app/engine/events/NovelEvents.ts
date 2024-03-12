@@ -1,4 +1,4 @@
-import { INovelVariableState } from "../objects/NovelStateManager";
+import { INovelVariableState } from "../objects/NovelState";
 import Block from "../scopes/Block";
 import Event from "./Event";
 
