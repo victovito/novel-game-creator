@@ -5,7 +5,7 @@ import NovelParsingError from "./NovelParsingError";
 export default class UnexpectedArgumentCountError extends NovelParsingError {
     message: string;
     line: Line;
-    static buildMessage(expected: number, actual: number) {
-        return `Expected '${expected}' arguments, but got '${actual}' instead`;
+    constructor(expected: number | string, actual: number, line?: Line) {
+        super(`Expected ${expected} arguments, but got ${actual} instead`, line);
     }
 }

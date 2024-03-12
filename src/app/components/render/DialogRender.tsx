@@ -1,22 +1,22 @@
 import React from 'react';
-import NovelStateManager from '../../engine/objects/NovelStateManager';
+import NovelState from '../../engine/objects/NovelStateManager';
 import Text from '../../engine/expressions/Text';
 import Question from '../../engine/scopes/Question';
 import TextRender from './TextRender';
 
 type props = {
-    stateManager: NovelStateManager
+    state: NovelState
 };
 
-function DialogRender({ stateManager }: props) {
-    const dialog = stateManager.currentDialog;
+function DialogRender({ state }: props) {
+    const dialog = state.currentDialog;
     const renderElements = dialog?.renderElements;
 
     function getElement(index: number) {
         const element = renderElements[index];
-        const show = index <= stateManager.state.block.dialog.childIndex;
+        const show = index <= state.data.block.dialog.childIndex;
         if (element instanceof Text) {
-            return <TextRender show={show} stateManager={stateManager} text={element} key={index} />;
+            return <TextRender show={show} state={state} text={element} key={index} />;
         } if (element instanceof Question) {
             return <div>Question</div>;
         } else {
@@ -27,7 +27,7 @@ function DialogRender({ stateManager }: props) {
     function getElements() {
         const elements = [];
         for (let i = 0; i < renderElements.length; i++) {
-            if (!stateManager.currentTextOrQuestion) break;
+            if (!state.currentTextOrQuestion) break;
             elements.push(getElement(i));
         }
         return elements;

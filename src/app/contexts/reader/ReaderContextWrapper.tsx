@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useEffect, useState } from "react";
 
 import Novel from "../../engine/objects/Novel";
-import { INovelState } from "../../engine/objects/NovelStateManager";
+import NovelState, { INovelStateData } from "../../engine/objects/NovelStateManager";
 
 import NovelContext from "./NovelContext";
 import StateContext from "./StateContext";
@@ -9,7 +9,7 @@ import PausedContext from "./PausedContext";
 
 function ReaderContextWrapper({ children }: PropsWithChildren) {
     const [novel, setNovel] = useState<Novel>(initNovel);
-    const [state, setState] = useState<INovelState>(initState);
+    const [state, setState] = useState<NovelState>(initState);
     const [paused, setPaused] = useState<boolean>(initPaused);
 
     useEffect(() => {
@@ -17,7 +17,7 @@ function ReaderContextWrapper({ children }: PropsWithChildren) {
     }, [paused]);
 
     useEffect(() => {
-        state != undefined && sessionStorage.setItem("reader-state", JSON.stringify(state));
+        state != undefined && sessionStorage.setItem("reader-state-data", JSON.stringify(state.data));
     }, [state]);
 
     return (
@@ -37,9 +37,9 @@ function initNovel(): Novel {
     return undefined;
 }
 
-function initState(): INovelState {
-    const state = localStorage.getItem("reader-state");
-    return state ? JSON.parse(state) : undefined;
+function initState(): NovelState {
+    const data = localStorage.getItem("reader-state-data");
+    return new NovelState(null, data ? JSON.parse(data) as INovelStateData : null);
 }
 
 function initPaused(): boolean {

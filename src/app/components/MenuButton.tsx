@@ -7,10 +7,9 @@ type props = {
 }
 
 function MenuButton({ text, onPress, disabled }: props) {
-    function onClick() {
-        if (!disabled && onPress) {
-            onPress();
-        }
+    function onClick(event: React.MouseEvent) {
+        event.stopPropagation();
+        !disabled && onPress && onPress();
     }
     return (
         <button className={`button menu-button ${disabled ? 'disabled' : ''}`} onClick={onClick}>{text}</button>

@@ -6,7 +6,7 @@ import { usePausedContext } from '../../contexts/reader/PausedContext';
 
 import { parseNovel } from '../../engine/NovelParser';
 import Novel from '../../engine/objects/Novel';
-import NovelStateManager from '../../engine/objects/NovelStateManager';
+import NovelState from '../../engine/objects/NovelStateManager';
 import NovelParsingError from '../../engine/errors/NovelParsingError';
 
 import ReaderPause from './ReaderPause';
@@ -23,14 +23,6 @@ function NovelReader() {
             return;
         }
         setNovel(novel);
-    }
-
-    function setUpEvents() {
-        if (!novel) return;
-
-        novel.events.gotoBlock.subscribe((block) => {
-            // do something
-        })
     }
     
     useEffect(() => {
@@ -50,8 +42,6 @@ function NovelReader() {
         }, 500);
         return () => clearTimeout(interval);
     }, [novelFile]);
-
-    useEffect(setUpEvents, [novel]);
 
     return (
         <div className='novel-reader'>

@@ -4,7 +4,8 @@ export enum Type {
     Numerical = "number",
     Variable = "variable",
     BlockReference = "block_reference",
-    Any = "any"
+    Any = "any",
+    Undefined = "undefined"
 }
 export class MultiType {
     types: Type[];

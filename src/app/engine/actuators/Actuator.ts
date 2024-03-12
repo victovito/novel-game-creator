@@ -2,11 +2,12 @@ import UnexpectedArgumentCountError from "../errors/UnexpectedArgumentCountError
 import UnexpectedArgumentError from "../errors/UnexpectedArgumentError";
 import Value, { Type, MultiType } from "../values/Value";
 
-export function validateArguments(expected: (Type | MultiType)[], args: Value[]) {
-    if (args.length != expected.length) {
-        throw new UnexpectedArgumentCountError(UnexpectedArgumentCountError.buildMessage(expected.length, args.length), null);
+export function validateArguments(expected: (Type | MultiType)[], args: Value[], required?: number) {
+    const min = required ? required : expected.length;
+    if (args.length < min || args.length > expected.length) {
+        throw new UnexpectedArgumentCountError(required ? `${min}-${expected.length}` : expected.length, args.length, null);
     }
-    for (let i = 0; i < expected.length; i++) {
+    for (let i = 0; i < args.length; i++) {
         const arg = expected[i];
         const actual = args[i];
         if (arg instanceof MultiType) {

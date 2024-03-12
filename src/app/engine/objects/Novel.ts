@@ -7,6 +7,9 @@ import UnexpectedArgumentCountError from "../errors/UnexpectedArgumentCountError
 import UnexpectedArgumentError from "../errors/UnexpectedArgumentError";
 import NovelParsingError from "../errors/NovelParsingError";
 import NovelEvents from "../events/NovelEvents";
+import Command from "../expressions/Command";
+import getCommandFunction from "../actuators/Commands";
+import InvalidCommandError from "../errors/InvalidCommandError";
 
 export default class Novel {
     title: string;
@@ -27,7 +30,7 @@ export default class Novel {
                 const h = header.identifier.toUpperCase();
                 const fn = getHeaderFunction(h);
                 if (!fn) {
-                    throw new InvalidHeaderError(InvalidHeaderError.buildMessage(h), header.line);
+                    throw new InvalidHeaderError(h, header.line);
                 } else {
                     fn(this, ...header.args);
                 }
@@ -49,7 +52,33 @@ export default class Novel {
         });
     }
 
-    setVariable(reference: string, value: Value) {
+    run(command: Command) {
+        try {
+            const c = command.identifier.toLowerCase();
+            const fn = getCommandFunction(c);
+            if (!fn) {
+                throw new InvalidCommandError(c, command.line);
+            } else {
+                fn(this, ...command.args);
+            }
+        } catch (error) {
+            if (error instanceof UnexpectedArgumentCountError) {
+                error.line = command.line;
+                throw error;
+            } else
+            if (error instanceof UnexpectedArgumentError) {
+                error.line = command.line;
+                throw error;
+            } else
+            if (error instanceof InvalidCommandError) {
+                throw error;
+            } else {
+                throw new NovelParsingError(error.message, command.line);
+            }
+        }
+    }
+
+    setVariables(reference: string, value: Value) {
         this.variables.set(reference, value);
         this.events.variableUpdated.emit({ reference, value });
     }

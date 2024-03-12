@@ -1,38 +1,59 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import ReaderToolbar from './ReaderToolbar';
 import { useNovelContext } from '../contexts/reader/NovelContext';
-import NovelStateManager from '../engine/objects/NovelStateManager';
+import NovelState from '../engine/objects/NovelStateManager';
 import { useStateContext } from '../contexts/reader/StateContext';
-import Text from '../engine/expressions/Text';
 import BlockRender from './render/BlockRender';
 import Question from '../engine/scopes/Question';
 
 function NovelRender() {
     const {novel, setNovel} = useNovelContext();
     const {state, setState} = useStateContext();
-    const [stateManager, setStateManager] = useState<NovelStateManager>();
+
+    function setUpEvents() {
+        if (!novel) return;
+        novel.events.clear();
+        novel.events.gotoBlock.subscribe((block) => {
+            setState(state.fromBlock(block.reference))
+        });
+        novel.events.playSound.subscribe((sound) => {
+            console.log("playing " + sound);
+        });
+        novel.events.stopSound.subscribe((sound) => {
+            console.log("stopping " + sound);
+        });
+    }
 
     function next() {
-        if (stateManager.currentTextOrQuestion instanceof Question) return;
-        stateManager.nextTextOrQuestion();
-        setStateManager(new NovelStateManager(novel, stateManager.state));
-        setState({...stateManager.state});
+        if (state.currentTextOrQuestion instanceof Question) return;
+        setState(state.nextState());
     }
 
     useEffect(() => {
         if (!novel) return;
-        const newState = new NovelStateManager(novel, state);
-        setStateManager(newState);
-        setState({...newState.state});
+        const newState = new NovelState(novel);
+        setState(newState);
     }, [novel]);
 
-    useEffect(setUpNextListeners(next), [state,stateManager,novel]);
+    useEffect(() => {
+        if (state) {
+            setUpEvents();
+            if (state.currentCommand) {
+                next();
+                novel.run(state.currentCommand);
+            }
+        } else {
+            setState(new NovelState(novel));
+        }
+    }, [state]);
+
+    useEffect(setUpNextListeners(next), [state, novel]);
 
     return (
         <div className='reader-main' onClick={next}>
             <ReaderToolbar />
-            {stateManager && novel ? (
-                <BlockRender stateManager={stateManager} />
+            {state && novel ? (
+                <BlockRender state={state} />
             ) : <></>}
         </div>
     );

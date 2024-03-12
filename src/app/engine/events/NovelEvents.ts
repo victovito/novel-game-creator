@@ -9,4 +9,11 @@ export default class NovelEvents {
     playSound: Event<string> = new Event<string>();
     stopSound: Event<string> = new Event<string>();
     constructor() { }
+    clear() {
+        this.variableUpdated = new Event<INovelVariableState>();
+        this.gotoBlock = new Event<Block>();
+        this.preloadResource = new Event<string>();
+        this.playSound = new Event<string>();
+        this.stopSound = new Event<string>();
+    }
 }

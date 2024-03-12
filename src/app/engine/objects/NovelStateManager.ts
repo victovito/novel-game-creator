@@ -4,19 +4,20 @@ import Dialog from "../scopes/Dialog";
 import Text from "../expressions/Text";
 import Question from "../scopes/Question";
 import Value from "../values/Value";
+import Command from "../expressions/Command";
 
-export interface INovelState {
+export interface INovelStateData {
     block: INovelBlockState;
     variables: INovelVariableState[];
 }
 
 export interface INovelBlockState {
     reference: string;
+    childIndex: number;
     dialog: INovelDialogState;
 }
 
 export interface INovelDialogState {
-    index: number;
     childIndex: number;
 }
 
@@ -25,58 +26,74 @@ export interface INovelVariableState {
     value: Value;
 }
 
-export default class NovelStateManager {
+export default class NovelState {
     novel: Novel;
-    state: INovelState;
+    data: INovelStateData;
 
-    constructor(novel: Novel, state?: INovelState) {
+    constructor(novel: Novel, state?: INovelStateData) {
         this.novel = novel;
         if (!novel) return;
         if (state && Object.keys(state).length > 0) {
-            this.state = state;
+            this.data = state;
             this.applyStateVariables();
         } else {
             this.initEmptyState();
         }
     }
 
-    get currentBlock(): Block {
-        return this.novel?.getBlock(this.state.block.reference);
-    }
-
-    get currentDialog(): Dialog {
-        return this.currentBlock?.renderElements[this.state.block.dialog.index];
-    }
-
-    get currentTextOrQuestion(): Text | Question {
-        return this.currentDialog?.renderElements[this.state.block.dialog.childIndex] as (Text | Question);
-    }
-
-    nextDialog() {
-        this.state.block.dialog.index++;
-    }
-
-    nextTextOrQuestion() {
-        if (!this.currentDialog) return
-        if (this.currentDialog.renderElements.length == this.state.block.dialog.childIndex + 1) {
-            this.nextDialog();
-            this.state.block.dialog.childIndex = 0;
-        } else {
-            this.state.block.dialog.childIndex++;
+    get currentCommand(): Command {
+        const blockChild = this.currentBlock?.orderedElements[this.data.block.childIndex];
+        if (blockChild && blockChild instanceof Command) {
+            return blockChild;
         }
     }
 
+    get currentBlock(): Block {
+        return this.novel?.getBlock(this.data.block.reference);
+    }
+
+    get currentDialog(): Dialog {
+        const dialog = this.currentBlock?.orderedElements[this.data.block.childIndex];
+        if (dialog && dialog instanceof Dialog) {
+            return dialog;
+        }
+    }
+
+    get currentTextOrQuestion(): Text | Question {
+        const textOrQuestion = this.currentDialog?.orderedElements[this.data.block.dialog.childIndex];
+        if (textOrQuestion && (textOrQuestion instanceof Text || textOrQuestion instanceof Question)) {
+            return textOrQuestion;
+        }
+    }
+
+    nextState(): NovelState { 
+        const data: INovelStateData = JSON.parse(JSON.stringify(this.data));
+        if (!this.currentDialog || data.block.dialog.childIndex >= this.currentDialog.orderedElements.length - 1) {
+            data.block.childIndex++;
+            data.block.dialog.childIndex = 0;
+        } else {
+            data.block.dialog.childIndex++;
+        }
+        return new NovelState(this.novel, data);
+    }
+
+    fromBlock(reference: string): NovelState {
+        const state = new NovelState(this.novel);
+        state.data.block.reference = reference;
+        return state;
+    }
+
     updateVariables() {
-        this.state.variables = this.fromNovelVariables();
+        this.data.variables = this.fromNovelVariables();
     }
 
     private initEmptyState() {
         const block = this.novel.entry || Array.from(this.novel.blocks.values())[0];
-        this.state = {
+        this.data = {
             block: {
                 reference: block.reference,
+                childIndex: 0,
                 dialog: {
-                    index: 0,
                     childIndex: 0
                 }
             },
@@ -85,8 +102,8 @@ export default class NovelStateManager {
     }
 
     private applyStateVariables() {
-        if (!this.state.variables) return;
-        this.state.variables.forEach(variable => {
+        if (!this.data.variables) return;
+        this.data.variables.forEach(variable => {
             const original = this.novel.variables.get(variable.reference);
             original.value = variable.value.value;
         });

@@ -1,6 +1,5 @@
 import Novel from "../objects/Novel";
 import BlockReference from "../values/BlockReference";
-import String from "../values/String";
 import Value, { Type } from "../values/Value";
 import Variable from "../values/Variable";
 import { validateArguments } from "./Actuator";
@@ -13,7 +12,7 @@ function goto(novel: Novel, ...args: Value[]) {
 }
 
 function play(novel: Novel, ...args: Value[]) {
-    validateArguments([Type.Variable], args);
+    validateArguments([Type.Variable, Type.Numerical], args, 1);
     const variable = args[0] as Variable;
     const sound = novel.variables.get(variable.value);
     novel.events.playSound.emit(sound.value);

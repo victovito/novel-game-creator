@@ -1,16 +1,16 @@
 import React from 'react';
-import NovelStateManager from '../../engine/objects/NovelStateManager';
+import NovelState from '../../engine/objects/NovelStateManager';
 import DialogRender from './DialogRender';
 
 type props = {
-    stateManager: NovelStateManager
+    state: NovelState
 };
 
-function BlockRender({ stateManager }: props) {
+function BlockRender({ state }: props) {
     return (
         <div className='render-block'>
             <div className="block-content">
-                <DialogRender stateManager={stateManager} />
+                <DialogRender state={state} />
             </div>
         </div>
     );

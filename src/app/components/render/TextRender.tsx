@@ -1,18 +1,18 @@
 import React from 'react';
-import NovelStateManager from '../../engine/objects/NovelStateManager';
+import NovelState from '../../engine/objects/NovelStateManager';
 import Text from '../../engine/expressions/Text';
 
 type props = {
-    stateManager: NovelStateManager,
+    state: NovelState,
     text: Text,
     show?: boolean
 };
 
-function TextRender({ text, stateManager, show = true }: props) {
+function TextRender({ text, state, show = true }: props) {
     let content = text.content;
 
     text.variables.forEach(variable => {
-        const value = stateManager.novel.getVariable(variable.value);
+        const value = state.novel.getVariable(variable.value);
         content = content.replace(`{$${variable.value}}`, value?.value || "<NOT FOUND>");
     });
 
