@@ -8,7 +8,7 @@ import UnexpectedArgumentError from "../errors/UnexpectedArgumentError";
 import NovelParsingError from "../errors/NovelParsingError";
 import NovelEvents from "../events/NovelEvents";
 
-export default class NovelObject {
+export default class Novel {
     title: string;
     author: string;
     entry: Block;
@@ -47,6 +47,11 @@ export default class NovelObject {
                 }
             }
         });
+    }
+
+    setVariable(reference: string, value: Value) {
+        this.variables.set(reference, value);
+        this.events.variableUpdated.emit({ reference, value });
     }
 
     getVariable(reference: string) {

@@ -17,6 +17,10 @@ export default class Scope {
         return this.getOrderedElements();
     }
 
+    get renderElements(): (Expression | Scope)[] {
+        return this.orderedElements;
+    }
+
     static generateScopes(lines: Line[], startExp: RegExp, endExp: RegExp): Scope[] {
         const scopes: Scope[] = [];
 

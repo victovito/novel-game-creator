@@ -7,8 +7,13 @@ type props = {
 }
 
 function MenuButton({ text, onPress, disabled }: props) {
+    function onClick() {
+        if (!disabled && onPress) {
+            onPress();
+        }
+    }
     return (
-        <button className={`button menu-button ${disabled ? 'disabled' : ''}`} onClick={() => !disabled && onPress()}>{text}</button>
+        <button className={`button menu-button ${disabled ? 'disabled' : ''}`} onClick={onClick}>{text}</button>
     )
 };
 

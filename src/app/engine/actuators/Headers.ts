@@ -1,45 +1,45 @@
-import NovelObject from "../structural/NovelObject";
+import Novel from "../objects/Novel";
 import BlockReference from "../values/BlockReference";
 import String from "../values/String";
 import Value, { MultiType, Type } from "../values/Value";
 import Variable from "../values/Variable";
 import { validateArguments } from "./Actuator";
 
-function title(novel: NovelObject, ...args: Value[]) {
+function title(novel: Novel, ...args: Value[]) {
     validateArguments([Type.String], args);
     novel.title = (args[0] as String).value;
 }
 
-function author(novel: NovelObject, ...args: Value[]) {
+function author(novel: Novel, ...args: Value[]) {
     validateArguments([Type.String], args);
     novel.author = (args[0] as String).value;
 }
 
-function entry(novel: NovelObject, ...args: Value[]) {
+function entry(novel: Novel, ...args: Value[]) {
     validateArguments([Type.BlockReference], args);
     novel.entry = novel.getBlock((args[0] as BlockReference).value);
 }
 
-function define(novel: NovelObject, ...args: Value[]) {
+function define(novel: Novel, ...args: Value[]) {
     validateArguments([Type.Variable, new MultiType(Type.String, Type.Numerical)], args);
     const variable = args[0] as Variable;
     const value = args[1] as Value;
     novel.variables.set(variable.value, value);
 }
 
-function preload(novel: NovelObject, ...args: Value[]) {
+function preload(novel: Novel, ...args: Value[]) {
     validateArguments([Type.String, Type.Variable], args);
     const path = args[0] as String;
     const variable = args[1] as Variable;
     novel.variables.set(variable.value, path);
 }
 
-function lock(novel: NovelObject, ...args: Value[]) {
+function lock(novel: Novel, ...args: Value[]) {
     validateArguments([], args);
     novel.locked = true;
 }
 
-const headers = new Map<string, (novel: NovelObject, ...args: Value[]) => void>([
+const headers = new Map<string, (novel: Novel, ...args: Value[]) => void>([
     ["TITLE", title],
     ["AUTHOR", author],
     ["ENTRY", entry],
@@ -48,7 +48,7 @@ const headers = new Map<string, (novel: NovelObject, ...args: Value[]) => void>(
     ["LOCK", lock],
 ]);
 
-export default function getHeaderFunction(identifier: string): (novel: NovelObject, ...args: Value[]) => void {
+export default function getHeaderFunction(identifier: string): (novel: Novel, ...args: Value[]) => void {
     return headers.get(identifier);
 }
 

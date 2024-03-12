@@ -1,17 +1,37 @@
 import React, { useEffect, useState } from 'react';
+
 import { useNovelFileContext } from '../../contexts/NovelFileContext';
-import { parseNovel } from '../../engine/NovelParser';
-import NovelObject from '../../engine/structural/NovelObject';
-import ReaderPause from './ReaderPause';
-import ReaderMain from './ReaderMain';
-import ReaderContextWrapper from '../../contexts/reader/ReaderContextWrapper';
+import { useNovelContext } from '../../contexts/reader/NovelContext';
 import { usePausedContext } from '../../contexts/reader/PausedContext';
-import { useNavigate } from 'react-router-dom';
+
+import { parseNovel } from '../../engine/NovelParser';
+import Novel from '../../engine/objects/Novel';
+import NovelStateManager from '../../engine/objects/NovelStateManager';
+import NovelParsingError from '../../engine/errors/NovelParsingError';
+
+import ReaderPause from './ReaderPause';
+import NovelRender from '../../components/NovelRender';
 
 function NovelReader() {
     const {novelFile, setNovelFile} = useNovelFileContext();
-    const [novel, setNovel] = useState<NovelObject>();
+    const {novel, setNovel} = useNovelContext();
     const {paused, setPaused} = usePausedContext();
+
+    function onNovelParsed(novel: Novel, error: NovelParsingError) {
+        if (error) {
+            console.error(error);
+            return;
+        }
+        setNovel(novel);
+    }
+
+    function setUpEvents() {
+        if (!novel) return;
+
+        novel.events.gotoBlock.subscribe((block) => {
+            // do something
+        })
+    }
     
     useEffect(() => {
         api.onNovelUpdated((content) => {
@@ -24,30 +44,18 @@ function NovelReader() {
 
     useEffect(() => {
         if (!novelFile) return;
-        parseNovel(novelFile.content, (novel, error) => {
-            if (error) {
-                console.error(error);
-                return;
-            }
-            setNovel(novel);
-        });
+        parseNovel(novelFile.content, onNovelParsed);
         const interval = setInterval(() => {
             api.checkForNovelUpdate(novelFile.path, novelFile.content);
         }, 500);
         return () => clearTimeout(interval);
     }, [novelFile]);
 
-    useEffect(() => {
-        if (novel) {
-            novel.events.gotoBlock.subscribe((block) => {
-                // do something
-            })
-        }
-    }, [novel]);
+    useEffect(setUpEvents, [novel]);
 
     return (
         <div className='novel-reader'>
-            {!paused ? <ReaderMain /> : <ReaderPause /> }
+            {!paused ? <NovelRender /> : <ReaderPause /> }
         </div>
     );
 }

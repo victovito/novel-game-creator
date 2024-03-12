@@ -21,7 +21,7 @@ export default class Text extends Expression {
                 match = [match[0]]
             }
             text.variables = match.map(variable => {
-                const inner = variable.slice(1, variable.length - 1);
+                const inner = variable.slice(2, variable.length - 1);
                 return new Variable(inner);
             })
         }

@@ -19,6 +19,10 @@ export default class Dialog extends Scope {
     override get orderedElements(): (Scope | Expression)[] {
         return this.getOrderedElements(...this.texts, ...this.commands, ...this.questions);
     }
+    
+    override get renderElements(): (Scope | Expression)[] {
+        return this.getOrderedElements(...this.texts, ...this.questions);
+    }
 
     static readonly startExp = /^@.*("[^"]*")?.*$/i;
     static readonly endExp = /^@$/i;

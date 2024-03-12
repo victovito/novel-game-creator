@@ -16,7 +16,7 @@ function MainMenu() {
     }, []);
 
     return (
-        <div className='main-menu'>
+        <div className='main-menu menu'>
             <MenuButton text='Load novel' onPress={api.requestNovel} />
             <MenuButton text='Continue novel' disabled />
             <MenuButton text='Quit' onPress={window.close} />

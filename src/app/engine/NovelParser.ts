@@ -1,13 +1,13 @@
 import Header from "./expressions/Header";
 import Line from "./structural/Line";
 import Block from "./scopes/Block";
-import NovelObject from "./structural/NovelObject";
+import Novel from "./objects/Novel";
 import NovelParsingError from "./errors/NovelParsingError";
 import UnexpectedSymbolError from "./errors/UnexpectedSymbolError";
-import getCommandFunction from "./actuators/Commands";
 
-export function parseNovel(file: string, callback: (novel: NovelObject, error: NovelParsingError) => void) {
-    const novel = new NovelObject();
+export function parseNovel(file: string, callback: (novel: Novel, error: NovelParsingError) => void) {
+    console.log("Parsing...");
+    const novel = new Novel();
     novel.rawContent = file;
 
     const lines = file.split("\r\n").map((line, i) => {

@@ -21,6 +21,10 @@ export default class Block extends Scope {
         return this.getOrderedElements(...this.dialogs, ...this.commands);
     }
 
+    override get renderElements(): Dialog[] {
+        return this.getOrderedElements(...this.dialogs) as Dialog[];
+    }
+
     static readonly startExp = /^#(.*)?/i;
     static readonly endExp = /^#$/i;
 
