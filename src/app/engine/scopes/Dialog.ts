@@ -49,6 +49,7 @@ export default class Dialog extends Scope {
     }
 
     private getSpeaker(): string {
+        if (this.starting.content.length == 1) return;
         const inner = this.starting.content.slice(1).trim();
         const match = inner.match(Dialog.speakerExp);
         if (!match) {
