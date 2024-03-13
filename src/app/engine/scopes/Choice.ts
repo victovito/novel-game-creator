@@ -5,7 +5,7 @@ import Expression from "../expressions/Expression";
 import UnexpectedSymbolError from "../errors/UnexpectedSymbolError";
 import ScopeDeclarationError from "../errors/ScopeDeclarationError";
 
-export default class Question extends Scope {
+export default class Choice extends Scope {
     options: Option[];
     
     constructor(scope: Scope) {
@@ -16,13 +16,17 @@ export default class Question extends Scope {
         return this.getOrderedElements(...this.options);
     }
     
+    override get renderElements(): Option[] {
+        return this.getOrderedElements(...this.options) as Option[];
+    }
+    
     static readonly startExp = /^\?$/i;
     static readonly endExp = /^\?$/i;
     
-    static override generateScopes(lines: Line[]): Question[] {
-        const questions = Scope.generateScopes(lines, this.startExp, this.endExp).map(scope => new Question(scope));
-        questions.forEach(question => question.processScope());
-        return questions;
+    static override generateScopes(lines: Line[]): Choice[] {
+        const choices = Scope.generateScopes(lines, this.startExp, this.endExp).map(scope => new Choice(scope));
+        choices.forEach(choice => choice.processScope());
+        return choices;
     }
         
     override processScope(): void {
@@ -41,7 +45,7 @@ export default class Question extends Scope {
             }
         });
         if (this.options.length == 0) {
-            throw new ScopeDeclarationError("Questions must have at least one option", this.ending);
+            throw new ScopeDeclarationError("Choices must have at least one option", this.ending);
         }
     }
 }

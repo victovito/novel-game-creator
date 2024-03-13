@@ -1,6 +1,6 @@
 import Scope from "./Scope";
 import Line from "../structural/Line";
-import Question from "./Question";
+import Choice from "./Choice";
 import Command from "../expressions/Command";
 import Expression from "../expressions/Expression";
 import Text from "../expressions/Text";
@@ -10,18 +10,18 @@ export default class Dialog extends Scope {
     speaker: string | null;
     texts: Text[] = [];
     commands: Command[] = [];
-    questions: Question[] = [];
+    choices: Choice[] = [];
 
     constructor(scope: Scope) {
         super(scope.starting, scope.ending, scope.innerText);
     }
 
     override get orderedElements(): (Scope | Expression)[] {
-        return this.getOrderedElements(...this.texts, ...this.commands, ...this.questions);
+        return this.getOrderedElements(...this.texts, ...this.commands, ...this.choices);
     }
     
     override get renderElements(): (Scope | Expression)[] {
-        return this.getOrderedElements(...this.texts, ...this.questions);
+        return this.getOrderedElements(...this.texts, ...this.choices);
     }
 
     static readonly startExp = /^@.*("[^"]*")?.*$/i;
@@ -36,10 +36,10 @@ export default class Dialog extends Scope {
     
     override processScope(): void {
         this.speaker = this.getSpeaker();
-        this.questions = Question.generateScopes(this.innerText);
+        this.choices = Choice.generateScopes(this.innerText);
         const rootLines = this.innerText.map(x => x);
-        this.questions.forEach(question => {
-            rootLines.splice(this.innerText.indexOf(question.starting), question.innerText.length + 2);
+        this.choices.forEach(choice => {
+            rootLines.splice(this.innerText.indexOf(choice.starting), choice.innerText.length + 2);
         });
         this.commands = rootLines.map(line => Command.tryParse(line)).filter(line => line != null);
         this.commands.forEach(command => {

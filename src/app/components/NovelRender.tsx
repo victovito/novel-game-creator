@@ -4,7 +4,7 @@ import { useNovelContext } from '../contexts/reader/NovelContext';
 import NovelState from '../engine/objects/NovelState';
 import { useStateContext } from '../contexts/reader/StateContext';
 import BlockRender from './render/BlockRender';
-import Question from '../engine/scopes/Question';
+import Choice from '../engine/scopes/Choice';
 
 function NovelRender() {
     const {novel, setNovel} = useNovelContext();
@@ -12,9 +12,14 @@ function NovelRender() {
 
     function setUpEvents() {
         if (!novel) return;
+
+        state.onNext(() => {
+            setState(state.nextState());
+        });
+
         novel.events.clear();
         novel.events.gotoBlock.subscribe((block) => {
-            setState(state.fromBlock(block.reference))
+            setState(state.fromBlock(block.reference));
         });
         novel.events.playSound.subscribe((sound) => {
             console.log("playing " + sound);
@@ -25,8 +30,8 @@ function NovelRender() {
     }
 
     function next() {
-        if (state.currentTextOrQuestion instanceof Question) return;
-        setState(state.nextState());
+        if (state.currentTextOrChoice instanceof Choice) return;
+        state.next();
     }
 
     useEffect(() => {
@@ -69,7 +74,7 @@ function setUpNextListeners(next: () => void) {
     return () => {
         const keyupListener = (event: KeyboardEvent) => {
             if (event.code == "Space") {
-                next()
+                next();
             }
         }
         document.addEventListener("keyup", keyupListener);

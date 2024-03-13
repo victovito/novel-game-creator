@@ -2,7 +2,7 @@ import Novel from "./Novel";
 import Block from "../scopes/Block";
 import Dialog from "../scopes/Dialog";
 import Text from "../expressions/Text";
-import Question from "../scopes/Question";
+import Choice from "../scopes/Choice";
 import Value from "../values/Value";
 import Command from "../expressions/Command";
 
@@ -29,6 +29,7 @@ export interface INovelVariableState {
 export default class NovelState {
     novel: Novel;
     data: INovelStateData;
+    next: () => void;
 
     constructor(novel: Novel, state?: INovelStateData) {
         this.novel = novel;
@@ -58,11 +59,15 @@ export default class NovelState {
         }
     }
 
-    get currentTextOrQuestion(): Text | Question {
-        const textOrQuestion = this.currentDialog?.orderedElements[this.data.block.dialog.childIndex];
-        if (textOrQuestion && (textOrQuestion instanceof Text || textOrQuestion instanceof Question)) {
-            return textOrQuestion;
+    get currentTextOrChoice(): Text | Choice {
+        const textOrChoice = this.currentDialog?.orderedElements[this.data.block.dialog.childIndex];
+        if (textOrChoice && (textOrChoice instanceof Text || textOrChoice instanceof Choice)) {
+            return textOrChoice;
         }
+    }
+
+    onNext(next: () => void) {
+        this.next = next;
     }
 
     nextState(): NovelState { 
@@ -97,15 +102,17 @@ export default class NovelState {
                     childIndex: 0
                 }
             },
-            variables: this.fromNovelVariables()
-        }
+            variables: this.fromNovelVariables(),
+        };
     }
 
     private applyStateVariables() {
         if (!this.data.variables) return;
         this.data.variables.forEach(variable => {
             const original = this.novel.variables.get(variable.reference);
-            original.value = variable.value.value;
+            if (original) {
+                original.value = variable.value.value;
+            }
         });
     }
 

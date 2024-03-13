@@ -121,14 +121,28 @@ body {
   }
 
   .render-dialog {
-    .speaker {
-      font-weight: bold;
-      opacity: 50%;
-    }
-
     position: relative;
     display: flex;
     flex-direction: column;
     gap: 20px;
+
+    .speaker {
+      font-weight: bold;
+      opacity: 50%;
+    }
+  }
+
+  .render-choice {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    border: 5px solid white;
+    padding: 30px;
+
+    .render-option {
+      cursor: pointer;
+      text-align: left;
+      line-height: 60px;
+    }
   }
 }

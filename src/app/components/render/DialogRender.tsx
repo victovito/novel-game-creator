@@ -1,8 +1,9 @@
 import React from 'react';
 import NovelState from '../../engine/objects/NovelState';
 import Text from '../../engine/expressions/Text';
-import Question from '../../engine/scopes/Question';
+import Choice from '../../engine/scopes/Choice';
 import TextRender from './TextRender';
+import ChoiceRender from './ChoiceRender';
 
 type props = {
     state: NovelState
@@ -17,17 +18,17 @@ function DialogRender({ state }: props) {
         const show = index <= state.data.block.dialog.childIndex;
         if (element instanceof Text) {
             return <TextRender show={show} state={state} text={element} key={index} />;
-        } if (element instanceof Question) {
-            return <div>Question</div>;
+        } if (element instanceof Choice) {
+            return <ChoiceRender show={show} state={state} choice={element} key={index} />;
         } else {
-            return <div>unknown</div>;
+            return <></>;
         }
     }
     
     function getElements() {
         const elements = [];
         for (let i = 0; i < renderElements.length; i++) {
-            if (!state.currentTextOrQuestion) break;
+            if (!state.currentTextOrChoice) break;
             elements.push(getElement(i));
         }
         return elements;

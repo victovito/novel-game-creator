@@ -3,7 +3,7 @@ import NovelState from '../../engine/objects/NovelState';
 import DialogRender from './DialogRender';
 
 type props = {
-    state: NovelState
+    state: NovelState,
 };
 
 function BlockRender({ state }: props) {

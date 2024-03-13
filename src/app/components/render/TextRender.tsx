@@ -13,7 +13,9 @@ function TextRender({ text, state, show = true }: props) {
 
     text.variables.forEach(variable => {
         const value = state.novel.getVariable(variable.value);
-        content = content.replace(`{$${variable.value}}`, value?.value || "<NOT FOUND>");
+        if (value) {
+            content = content.replace(`{$${variable.value}}`, value.value);
+        }
     });
 
     const style: React.CSSProperties = {}
