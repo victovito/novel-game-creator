@@ -54,9 +54,13 @@ body {
   .reader-main {
     width: 100%;
     height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    .reader-content-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 }
 
@@ -96,14 +100,30 @@ body {
   }
 }
 
-.toolbar-button {
+.icon-button {
   display: flex;
   padding: 10px;
   .icon {
     background-color: white;
-    width: 48px;
-    height: 48px;
     mask-size: cover;
+  }
+  &.sm {
+    .icon {
+      width: 28px;
+      height: 28px;
+    }
+  }
+  &.md {
+    .icon {
+      width: 48px;
+      height: 48px;
+    }
+  }
+  &.lg {
+    .icon {
+      width: 68px;
+      height: 68px;
+    }
   }
   &:hover:not(.disabled) {
     .icon {
@@ -143,6 +163,47 @@ body {
       cursor: pointer;
       text-align: left;
       line-height: 60px;
+    }
+  }
+}
+
+.render-error-container {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+
+  .render-errors {
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .render-error {
+    padding: 15px;
+    display: flex;
+    gap: 15px;
+    background-color: rgb(255, 66, 66);
+    border: 3px solid white;
+
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      gap: 8px;
+
+      .message {
+        font-size: 16px;
+      }
+      
+      .line {
+        font-size: 14px;
+        opacity: 75%;
+      }
     }
   }
 }

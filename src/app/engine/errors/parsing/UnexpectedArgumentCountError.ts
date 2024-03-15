@@ -1,5 +1,4 @@
-import Line from "../structural/Line";
-import { Type } from "../values/Value";
+import Line from "../../structural/Line";
 import NovelParsingError from "./NovelParsingError";
 
 export default class UnexpectedArgumentCountError extends NovelParsingError {

@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MenuButton from '../../components/MenuButton';
-import ToolbarButton from '../../components/ToolbarButton';
+import IconButton from '../../components/IconButton';
 
-import leftArrowIcon from '../../assets/icons/Left_Arrow.svg';
 import { usePausedContext } from '../../contexts/reader/PausedContext';
 import { useStateContext } from '../../contexts/reader/StateContext';
+
+import backIcon from '../../assets/icons/arrow-left.svg';
 
 function ReaderPause() {
     const {setPaused} = usePausedContext();
@@ -26,7 +27,7 @@ function ReaderPause() {
     return (
         <div className='reader-pause menu'>
             <div className="return-button">
-                <ToolbarButton icon={leftArrowIcon} onPress={() => setPaused(false)} />
+                <IconButton icon={backIcon} onPress={() => setPaused(false)} />
             </div>
             <MenuButton text='Restart novel' onPress={restart} />
             <MenuButton text='Exit to menu' onPress={goToMenu} />

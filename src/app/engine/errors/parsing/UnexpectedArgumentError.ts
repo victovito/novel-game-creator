@@ -1,7 +1,6 @@
-import Line from "../structural/Line";
-import { MultiType, Type } from "../values/Value";
+import Line from "../../structural/Line";
+import { MultiType, Type } from "../../values/Value";
 import NovelParsingError from "./NovelParsingError";
-
 export default class UnexpectedArgumentError extends NovelParsingError {
     message: string;
     line: Line;

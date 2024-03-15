@@ -1,8 +1,8 @@
 import Expression from "./Expression";
 import Line from "../structural/Line";
 import Value, { stringToValues } from "../values/Value";
-import NovelParsingError from "../errors/NovelParsingError";
-import UnexpectedSymbolError from "../errors/UnexpectedSymbolError";
+import NovelParsingError from "../errors/parsing/NovelParsingError";
+import UnexpectedSymbolError from "../errors/parsing/UnexpectedSymbolError";
 
 export default class Header extends Expression {
     identifier: string;

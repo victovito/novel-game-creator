@@ -1,3 +1,4 @@
+import InvalidHeaderError from "../errors/parsing/InvalidHeaderError";
 import Novel from "../objects/Novel";
 import BlockReference from "../values/BlockReference";
 import String from "../values/String";
@@ -49,6 +50,10 @@ const headers = new Map<string, (novel: Novel, ...args: Value[]) => void>([
 ]);
 
 export default function getHeaderFunction(identifier: string): (novel: Novel, ...args: Value[]) => void {
-    return headers.get(identifier);
+    const header = headers.get(identifier);
+    if (!header) {
+        throw new InvalidHeaderError(identifier);
+    }
+    return header;
 }
 

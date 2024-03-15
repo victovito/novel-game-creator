@@ -1,11 +1,11 @@
 import React from 'react';
-import ToolbarButton from './ToolbarButton';
+import IconButton from './IconButton';
 import { useSoundContext } from '../contexts/SoundContext';
-
-import menuIcon from "../assets/icons/Menu.svg";
-import soundOnIcon from "../assets/icons/Sound_On.svg";
-import soundOffIcon from "../assets/icons/Sound_Off.svg";
 import { usePausedContext } from '../contexts/reader/PausedContext';
+
+import menuIcon from "../assets/icons/menu.svg";
+import soundOnIcon from "../assets/icons/volume-2.svg";
+import soundOffIcon from "../assets/icons/volume-x.svg";
 
 function ReaderToolbar() {
     const {sound, setSound} = useSoundContext();
@@ -20,8 +20,8 @@ function ReaderToolbar() {
 
     return (
         <div className='reader-toolbar'>
-            <ToolbarButton icon={sound.enabled ? soundOnIcon : soundOffIcon} onPress={toogleSound} />
-            <ToolbarButton icon={menuIcon} onPress={() => setPaused(true)} />
+            <IconButton icon={sound.enabled ? soundOnIcon : soundOffIcon} onPress={toogleSound} />
+            <IconButton icon={menuIcon} onPress={() => setPaused(true)} />
         </div>
     );
 }

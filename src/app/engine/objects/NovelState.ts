@@ -30,21 +30,32 @@ export default class NovelState {
     novel: Novel;
     data: INovelStateData;
     next: () => void;
+    private _prevCommands: Command[] = [];
 
-    constructor(novel: Novel, state?: INovelStateData) {
+    constructor(novel: Novel, data?: INovelStateData) {
         this.novel = novel;
-        if (state && Object.keys(state).length > 0) {
-            this.data = state;
+        if (data && Object.keys(data).length > 0) {
+            this.data = data;
             if (novel) this.applyStateVariables();
         } else {
             this.initEmptyState();
         }
     }
 
+    get previousCommands() {
+        return this._prevCommands;
+    }
+
     get currentCommand(): Command {
         const blockChild = this.currentBlock?.orderedElements[this.data.block.childIndex];
         if (blockChild && blockChild instanceof Command) {
             return blockChild;
+        }
+        if (blockChild && blockChild instanceof Dialog) {
+            const dialogChild = this.currentDialog.orderedElements[this.data.block.dialog.childIndex];
+            if (dialogChild && dialogChild instanceof Command) {
+                return dialogChild;
+            }
         }
     }
 
@@ -70,20 +81,40 @@ export default class NovelState {
         this.next = next;
     }
 
-    nextState(): NovelState { 
-        const data: INovelStateData = JSON.parse(JSON.stringify(this.data));
-        if (!this.currentDialog || data.block.dialog.childIndex >= this.currentDialog.orderedElements.length - 1) {
-            data.block.childIndex++;
-            data.block.dialog.childIndex = 0;
-        } else {
-            data.block.dialog.childIndex++;
+    nextState(): NovelState {
+        function getNextElement(state: NovelState) {
+            const data: INovelStateData = JSON.parse(JSON.stringify(state.data));
+            if (!state.currentDialog || data.block.dialog.childIndex >= state.currentDialog.orderedElements.length - 1) {
+                data.block.childIndex++;
+                data.block.dialog.childIndex = 0;
+            } else {
+                data.block.dialog.childIndex++;
+            }
+            return new NovelState(state.novel, data);
         }
-        return new NovelState(this.novel, data);
+        const commands: Command[] = [];
+        let state: NovelState = getNextElement(this);
+        while (state.currentCommand) {
+            commands.push(state.currentCommand);
+            state = getNextElement(state);
+        }
+        state._prevCommands = commands;
+        return state;
     }
 
     fromBlock(reference: string): NovelState {
-        const state = new NovelState(this.novel);
-        state.data.block.reference = reference;
+        const data = {
+            block: {
+                reference: reference,
+                childIndex: 0,
+                dialog: {
+                    childIndex: 0
+                }
+            },
+            variables: this.fromNovelVariables(),
+        };
+        const state = new NovelState(this.novel, data);
+        this.applyPrevCommands(state);
         return state;
     }
 
@@ -104,6 +135,15 @@ export default class NovelState {
             },
             variables: this.fromNovelVariables(),
         };
+        this.applyPrevCommands(this);
+    }
+
+    private applyPrevCommands(state: NovelState) {
+        if (state.currentCommand) {
+            const newState = state.nextState();
+            state._prevCommands = [state.currentCommand, ...newState._prevCommands];
+            state.data = newState.data;
+        }
     }
 
     private applyStateVariables() {

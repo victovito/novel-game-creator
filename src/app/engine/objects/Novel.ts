@@ -2,14 +2,11 @@ import Header from "../expressions/Header";
 import Block from "../scopes/Block";
 import getHeaderFunction from "../actuators/Headers";
 import Value from "../values/Value";
-import InvalidHeaderError from "../errors/InvalidHeaderError";
-import UnexpectedArgumentCountError from "../errors/UnexpectedArgumentCountError";
-import UnexpectedArgumentError from "../errors/UnexpectedArgumentError";
-import NovelParsingError from "../errors/NovelParsingError";
+import NovelParsingError from "../errors/parsing/NovelParsingError";
 import NovelEvents from "../events/NovelEvents";
 import Command from "../expressions/Command";
 import getCommandFunction from "../actuators/Commands";
-import InvalidCommandError from "../errors/InvalidCommandError";
+import NovelRuntimeError from "../errors/runtime/NovelRuntimeError";
 
 export default class Novel {
     title: string;
@@ -29,21 +26,10 @@ export default class Novel {
             try {
                 const h = header.identifier.toUpperCase();
                 const fn = getHeaderFunction(h);
-                if (!fn) {
-                    throw new InvalidHeaderError(h, header.line);
-                } else {
-                    fn(this, ...header.args);
-                }
+                fn(this, ...header.args);
             } catch (error) {
-                if (error instanceof UnexpectedArgumentCountError) {
+                if (error instanceof NovelParsingError) {
                     error.line = header.line;
-                    throw error;
-                } else
-                if (error instanceof UnexpectedArgumentError) {
-                    error.line = header.line;
-                    throw error;
-                } else
-                if (error instanceof InvalidHeaderError) {
                     throw error;
                 } else {
                     throw new NovelParsingError(error.message, header.line);
@@ -56,24 +42,13 @@ export default class Novel {
         try {
             const c = command.identifier.toLowerCase();
             const fn = getCommandFunction(c);
-            if (!fn) {
-                throw new InvalidCommandError(c, command.line);
-            } else {
-                fn(this, ...command.args);
-            }
+            fn(this, ...command.args);
         } catch (error) {
-            if (error instanceof UnexpectedArgumentCountError) {
+            if (error instanceof NovelRuntimeError) {
                 error.line = command.line;
-                throw error;
-            } else
-            if (error instanceof UnexpectedArgumentError) {
-                error.line = command.line;
-                throw error;
-            } else
-            if (error instanceof InvalidCommandError) {
-                throw error;
+                this.events.onRuntimeError.emit(error);
             } else {
-                throw new NovelParsingError(error.message, command.line);
+                this.events.onRuntimeError.emit(new NovelRuntimeError(error.message, command.line));
             }
         }
     }

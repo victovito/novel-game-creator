@@ -1,6 +1,6 @@
 import Line from "../structural/Line";
 
-export default class NovelParsingError {
+export default class NovelError {
     message: string;
     line: Line;
 

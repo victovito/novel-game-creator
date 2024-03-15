@@ -11,25 +11,24 @@ type props = {
 
 function DialogRender({ state }: props) {
     const dialog = state.currentDialog;
-    const renderElements = dialog?.renderElements;
+    const orderedElements = dialog?.orderedElements;
 
-    function getElement(index: number) {
-        const element = renderElements[index];
+    function getElement(index: number): React.JSX.Element {
+        const element = orderedElements[index];
         const show = index <= state.data.block.dialog.childIndex;
         if (element instanceof Text) {
             return <TextRender show={show} state={state} text={element} key={index} />;
         } if (element instanceof Choice) {
             return <ChoiceRender show={show} state={state} choice={element} key={index} />;
-        } else {
-            return <></>;
         }
     }
     
     function getElements() {
         const elements = [];
-        for (let i = 0; i < renderElements.length; i++) {
-            if (!state.currentTextOrChoice) break;
-            elements.push(getElement(i));
+        for (let i = 0; i < orderedElements.length; i++) {
+            if (state.currentTextOrChoice) {
+                elements.push(getElement(i));
+            }
         }
         return elements;
     }

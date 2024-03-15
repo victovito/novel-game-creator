@@ -2,8 +2,8 @@ import Header from "./expressions/Header";
 import Line from "./structural/Line";
 import Block from "./scopes/Block";
 import Novel from "./objects/Novel";
-import NovelParsingError from "./errors/NovelParsingError";
-import UnexpectedSymbolError from "./errors/UnexpectedSymbolError";
+import NovelParsingError from "./errors/parsing/NovelParsingError";
+import UnexpectedSymbolError from "./errors/parsing/UnexpectedSymbolError";
 
 export function parseNovel(file: string, callback: (novel: Novel, error: NovelParsingError) => void) {
     console.log("Parsing...");

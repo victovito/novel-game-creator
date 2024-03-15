@@ -26,14 +26,14 @@ export default class Value {
     constructor() {}
 }
 
-import UnexpectedSymbolError from "../errors/UnexpectedSymbolError";
+import UnexpectedSymbolError from "../errors/parsing/UnexpectedSymbolError";
 import BlockReference from "./BlockReference";
 import Numerical from "./Numerical";
 import String from "./String";
 import Variable from "./Variable";
 
 export function stringToValues(str: string): Value[] {
-    const values = []; 
+    const values = [];
     while (str.length > 0) {
         str = str.trim();
         let didMatch = false;

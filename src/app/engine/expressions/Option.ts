@@ -1,8 +1,8 @@
 import Expression from "./Expression";
 import Line from "../structural/Line";
 import Command from "./Command";
-import NovelParsingError from "../errors/NovelParsingError";
-import UnexpectedSymbolError from "../errors/UnexpectedSymbolError";
+import NovelParsingError from "../errors/parsing/NovelParsingError";
+import UnexpectedSymbolError from "../errors/parsing/UnexpectedSymbolError";
 import Variable from "../values/Variable";
 
 export default class Option extends Expression {

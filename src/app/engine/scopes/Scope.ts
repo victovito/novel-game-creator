@@ -1,4 +1,4 @@
-import ScopeEnclosingError from "../errors/ScopeEnclosingError";
+import ScopeEnclosingError from "../errors/parsing/ScopeEnclosingError";
 import Expression from "../expressions/Expression";
 import Line from "../structural/Line";
 

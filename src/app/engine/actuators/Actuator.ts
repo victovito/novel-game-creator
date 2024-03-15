@@ -1,5 +1,5 @@
-import UnexpectedArgumentCountError from "../errors/UnexpectedArgumentCountError";
-import UnexpectedArgumentError from "../errors/UnexpectedArgumentError";
+import UnexpectedArgumentCountError from "../errors/runtime/UnexpectedArgumentCountError";
+import UnexpectedArgumentError from "../errors/runtime/UnexpectedArgumentError";
 import Value, { Type, MultiType } from "../values/Value";
 
 export function validateArguments(expected: (Type | MultiType)[], args: Value[], required?: number) {

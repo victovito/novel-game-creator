@@ -4,7 +4,7 @@ import Choice from "./Choice";
 import Command from "../expressions/Command";
 import Expression from "../expressions/Expression";
 import Text from "../expressions/Text";
-import UnexpectedSymbolError from "../errors/UnexpectedSymbolError";
+import UnexpectedSymbolError from "../errors/parsing/UnexpectedSymbolError";
 
 export default class Dialog extends Scope {
     speaker: string | null;
@@ -30,7 +30,7 @@ export default class Dialog extends Scope {
 
     static override generateScopes(lines: Line[]): Dialog[] {
         const dialogs = Scope.generateScopes(lines, this.startExp, this.endExp).map(scope => new Dialog(scope));
-        dialogs.forEach(dialog => dialog.processScope()); 
+        dialogs.forEach(dialog => dialog.processScope());
         return dialogs;
     }
     

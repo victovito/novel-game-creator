@@ -1,8 +1,8 @@
 import Expression from "./Expression";
 import Line from "../structural/Line";
 import Value, { stringToValues } from "../values/Value";
-import NovelParsingError from "../errors/NovelParsingError";
-import UnexpectedSymbolError from "../errors/UnexpectedSymbolError";
+import NovelParsingError from "../errors/parsing/NovelParsingError";
+import UnexpectedSymbolError from "../errors/parsing/UnexpectedSymbolError";
 
 export default class Command extends Expression {
     identifier: string;
@@ -22,7 +22,7 @@ export default class Command extends Expression {
             if (line.content == "") return null;
             const match = line.content.match(this.matchExp);
             if (!match) return null;
-            const inner = match[0].slice(1, match[0].length - 1).trim(); 
+            const inner = match[0].slice(1, match[0].length - 1).trim();
             const identifier = inner.match(/^[a-z]+\b/i)[0];
             const args = stringToValues(inner.slice(identifier.length));
             return new Command(line, identifier, args);

@@ -10,4 +10,8 @@ export default class Event<T> {
     emit(data: T) {
         this.subscribers.forEach(subscriber => subscriber(data));
     }
+
+    clear() {
+        this.subscribers = [];
+    }
 }

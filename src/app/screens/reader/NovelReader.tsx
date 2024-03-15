@@ -6,10 +6,10 @@ import { usePausedContext } from '../../contexts/reader/PausedContext';
 
 import { parseNovel } from '../../engine/NovelParser';
 import Novel from '../../engine/objects/Novel';
-import NovelParsingError from '../../engine/errors/NovelParsingError';
+import NovelParsingError from '../../engine/errors/parsing/NovelParsingError';
 
 import ReaderPause from './ReaderPause';
-import NovelRender from '../../components/NovelRender';
+import NovelRender from '../../components/render/NovelRender';
 
 function NovelReader() {
     const {novelFile, setNovelFile} = useNovelFileContext();

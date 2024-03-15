@@ -3,10 +3,10 @@ import Line from "../structural/Line";
 import Dialog from "./Dialog";
 import Command from "../expressions/Command";
 import Expression from "../expressions/Expression";
-import ScopeDeclarationError from "../errors/ScopeDeclarationError";
-import ScopeEnclosingError from "../errors/ScopeEnclosingError";
-import NovelParsingError from "../errors/NovelParsingError";
-import UnexpectedSymbolError from "../errors/UnexpectedSymbolError";
+import ScopeDeclarationError from "../errors/parsing/ScopeDeclarationError";
+import ScopeEnclosingError from "../errors/parsing/ScopeEnclosingError";
+import NovelParsingError from "../errors/parsing/NovelParsingError";
+import UnexpectedSymbolError from "../errors/parsing/UnexpectedSymbolError";
 
 export default class Block extends Scope {
     reference: string;

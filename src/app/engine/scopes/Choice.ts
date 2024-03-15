@@ -2,8 +2,8 @@ import Scope from "./Scope";
 import Line from "../structural/Line";
 import Option from "../expressions/Option";
 import Expression from "../expressions/Expression";
-import UnexpectedSymbolError from "../errors/UnexpectedSymbolError";
-import ScopeDeclarationError from "../errors/ScopeDeclarationError";
+import UnexpectedSymbolError from "../errors/parsing/UnexpectedSymbolError";
+import ScopeDeclarationError from "../errors/parsing/ScopeDeclarationError";
 
 export default class Choice extends Scope {
     options: Option[];

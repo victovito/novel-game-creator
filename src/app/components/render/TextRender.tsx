@@ -18,7 +18,7 @@ function TextRender({ text, state, show = true }: props) {
         }
     });
 
-    const style: React.CSSProperties = {}
+    const style: React.CSSProperties = {};
     if (!show) style.opacity = "0%";
 
     return (
