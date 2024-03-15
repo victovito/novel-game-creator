@@ -46,6 +46,7 @@ const commands = new Map<string, (novel: Novel, ...args: Value[]) => void>([
 export default function getCommandFunction(identifier: string): (novel: Novel, ...args: Value[]) => void {
     const command = commands.get(identifier);
     if (!command) {
+        //hoff
         throw new InvalidCommandError(identifier);
     }
     return command;

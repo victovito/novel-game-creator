@@ -11,7 +11,12 @@ export function parseNovel(file: string, callback: (novel: Novel, error: NovelPa
     novel.rawContent = file;
 
     const lines = file.split("\r\n").map((line, i) => {
-        return { content: line.trim(), number: i + 1 } as Line;
+        const comment = line.match(/\/\/.*/);
+        return {
+            raw: line,
+            content: line.trim().replace(comment ? comment[0] : "", ""),
+            number: i + 1
+        } as Line;
     });
 
     try {

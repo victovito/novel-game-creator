@@ -1,5 +1,5 @@
 
-# Novel Game Creator
+![logo ig :)](./logo.webp)
 
 A tool for creating interactive, text novels.
 
@@ -90,7 +90,7 @@ A dialog is a sequence of texts that can only be defined inside blocks. It conta
 
 #
 ```
-If you don't want to assigned a name to it, you can just do as following:
+If you don't want to assign a name to it, you can just do as following:
 ```novel
 #my_block
     
@@ -148,13 +148,13 @@ Choices are a set of one or more options that are clickable. Each option have a 
     {TEXT GOES HERE} [<command> ...]
 ?
 ```
-To use more than one commands, simply place them one after another.
+To use more than one command, simply place them one after another.
 ```novel
 ?
     {Do things} [goto #other_block] [play $clapping] [play $cheering]
 ?
 ```
-For example:
+Choices are great for creating branches on the novel by sending the reader to different block deppending on what option they choose. For example:
 ```novel
 #question
     @"Friend"
@@ -183,6 +183,19 @@ For example:
 #scenario3
     @
         You two couldn't decide so you don't eat anything.
+    @
+#
+```
+
+### Comments
+
+Comments are used to keep notes when writting a novel file. Commented lines will be ignored on parsing. To create a comment, place `//` before whatever you want to comment. For example:
+```novel
+// This comment will not affect parsing
+#block
+    @
+        // My other comment
+        Text
     @
 #
 ```
