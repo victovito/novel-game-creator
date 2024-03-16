@@ -10,8 +10,8 @@ function MainMenu() {
 
     useEffect(() => {
         api.onNovelRetrieved((path, content) => {
-            novelFinalContext.setNovelFile({ path, content });
             navigate("reader");
+            novelFinalContext.setNovelFile({ path, content });
         });
     }, []);
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import NovelState from '../../engine/objects/NovelState';
 import Text from '../../engine/expressions/Text';
+import Value from '../../engine/values/Value';
 
 type props = {
     state: NovelState,
@@ -13,7 +14,7 @@ function TextRender({ text, state, show = true }: props) {
 
     text.variables.forEach(variable => {
         const value = state.novel.getVariable(variable.value);
-        if (value) {
+        if (value && value instanceof Value) {
             content = content.replace(`{$${variable.value}}`, value.value);
         }
     });

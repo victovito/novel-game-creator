@@ -1,25 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import ReaderToolbar from '../ReaderToolbar';
+
 import { useNovelContext } from '../../contexts/reader/NovelContext';
-import NovelState from '../../engine/objects/NovelState';
 import { useStateContext } from '../../contexts/reader/StateContext';
-import BlockRender from './BlockRender';
+import { useNovelFileContext } from '../../contexts/NovelFileContext';
+
+import NovelState from '../../engine/objects/NovelState';
 import Choice from '../../engine/scopes/Choice';
 import NovelError from '../../engine/errors/NovelError';
+
+import ReaderToolbar from '../ReaderToolbar';
+import BlockRender from './BlockRender';
 import NovelErrorRender from './NovelErrorRender';
 
 function NovelRender() {
-    const {novel, setNovel} = useNovelContext();
+    const {novel} = useNovelContext();
     const {state, setState} = useStateContext();
     const [errors, setErrors] = useState<NovelError[]>([]);
 
     function setUpEvents() {
         if (!novel) return;
-
+    
         state.onNext(() => {
             setState(state.nextState());
         });
-
+    
         novel.events.clear();
         novel.events.onRuntimeError.subscribe(error => {
             errors.push(error);
@@ -27,11 +31,11 @@ function NovelRender() {
         novel.events.gotoBlock.subscribe(block => {
             setState(state.fromBlock(block.reference));
         });
-        novel.events.playSound.subscribe(sound => {
-            console.log("playing " + sound);
+        novel.events.playSound.subscribe(audio => {
+            console.log("playing " + audio.name);
         });
-        novel.events.stopSound.subscribe(sound => {
-            console.log("stopping " + sound);
+        novel.events.stopSound.subscribe(audio => {
+            console.log("stopping " + audio.name);
         });
     }
 
@@ -45,12 +49,7 @@ function NovelRender() {
         setErrors([...errors]);
     }
 
-    useEffect(() => {
-        if (!novel) return;
-        const newState = new NovelState(novel);
-        setState(newState);
-        setErrors([]);
-    }, [novel]);
+    useEffect(() => {}, []);
 
     useEffect(() => {
         if (state) {

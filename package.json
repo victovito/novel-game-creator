@@ -1,7 +1,7 @@
 {
   "name": "novel-game-creator",
   "productName": "novel-game-creator",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "My Electron application description",
   "main": ".webpack/main",
   "scripts": {

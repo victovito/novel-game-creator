@@ -1,4 +1,5 @@
 @import "./fonts.scss";
+@import "./colors.scss";
 
 html, body {
   margin: 0;
@@ -8,8 +9,8 @@ html, body {
 
 body {
   font-family: "Retro Gaming", sans-serif;
-  background: black;
-  color: white;
+  background: $primary;
+  color: $secundary;
 }
 
 .novel-game-main {
@@ -85,15 +86,15 @@ body {
     opacity: 25%;
   }
   &:hover:not(.disabled) {
-    background: white;
-    color: black;
+    background: $secundary;
+    color: $primary;
   }
 }
 
 .menu-button {
   font-size: 40px;
   padding: 10px 20px;
-  border: 5px solid white;
+  border: 5px solid $secundary;
   &:hover:not(.disabled) {
     font-weight: 700;
     padding: 10px 30px;
@@ -104,7 +105,7 @@ body {
   display: flex;
   padding: 10px;
   .icon {
-    background-color: white;
+    background-color: $secundary;
     mask-size: cover;
   }
   &.sm {
@@ -127,7 +128,7 @@ body {
   }
   &:hover:not(.disabled) {
     .icon {
-      background-color: black;
+      background-color: $primary;
     }
   }
 }
@@ -156,7 +157,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 30px;
-    border: 5px solid white;
+    border: 5px solid $secundary;
     padding: 30px;
 
     .render-option {
@@ -186,8 +187,8 @@ body {
     padding: 15px;
     display: flex;
     gap: 15px;
-    background-color: rgb(255, 66, 66);
-    border: 3px solid white;
+    background-color: $error;
+    border: 3px solid $secundary;
 
     .content {
       flex: 1;

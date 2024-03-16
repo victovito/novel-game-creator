@@ -17,8 +17,10 @@ function ReaderContextWrapper({ children }: PropsWithChildren) {
     }, [paused]);
 
     useEffect(() => {
-        state != undefined && sessionStorage.setItem("reader-state-data", JSON.stringify(state.data));
+        state != undefined && state.data != undefined && sessionStorage.setItem("reader-state-data", JSON.stringify(state.data));
     }, [state]);
+
+    useEffect(() => {}, [novel]);
 
     return (
         <NovelContext.Provider value={{ novel, setNovel }}>

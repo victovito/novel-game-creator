@@ -7,17 +7,23 @@ import NovelEvents from "../events/NovelEvents";
 import Command from "../expressions/Command";
 import getCommandFunction from "../actuators/Commands";
 import NovelRuntimeError from "../errors/runtime/NovelRuntimeError";
+import Resource from "../resources/Resource";
+import AudioResource from "../resources/AudioResource";
+import { IAudioFIleRequest } from "../../interfaces/IAudioFile";
+import AudioManager from "./AudioManager";
 
 export default class Novel {
+    rawContent: string = "";
+    path: string;
     title: string;
     author: string;
     entry: Block;
     locked: boolean = false;
     headers: Header[] = [];
     blocks: Map<string, Block> = new Map<string, Block>();
-    variables: Map<string, Value> = new Map<string, Value>();
-    rawContent: string = "";
+    variables: Map<string, Value | Resource> = new Map<string, Value | Resource>();
     events: NovelEvents = new NovelEvents();
+    audioManager: AudioManager = new AudioManager(this);
     
     constructor() {}
 
@@ -64,5 +70,9 @@ export default class Novel {
 
     getBlock(reference: string) {
         return this.blocks.get(reference);
+    }
+
+    async loadResources() {
+        await this.audioManager.loadResources();
     }
 }

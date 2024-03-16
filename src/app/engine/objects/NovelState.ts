@@ -5,6 +5,7 @@ import Text from "../expressions/Text";
 import Choice from "../scopes/Choice";
 import Value from "../values/Value";
 import Command from "../expressions/Command";
+import Resource from "../resources/Resource";
 
 export interface INovelStateData {
     block: INovelBlockState;
@@ -23,7 +24,7 @@ export interface INovelDialogState {
 
 export interface INovelVariableState {
     reference: string;
-    value: Value;
+    value: Value | Resource;
 }
 
 export default class NovelState {
@@ -151,7 +152,13 @@ export default class NovelState {
         this.data.variables.forEach(variable => {
             const original = this.novel.variables.get(variable.reference);
             if (original) {
-                original.value = variable.value.value;
+                if (original instanceof Value) {
+                    original.value = (variable.value as Value).value;
+                } else
+                if (original instanceof Resource) {
+                    original.name = (variable.value as Resource).name;
+                    original.path = (variable.value as Resource).path;
+                }
             }
         });
     }
@@ -160,7 +167,7 @@ export default class NovelState {
         if (!this.novel) return [];
         const variables: INovelVariableState[] = [];
         const keys = Array.from(this.novel.variables.keys());
-        keys.forEach((key, index) => {
+        keys.forEach(key => {
             const value = this.novel.getVariable(key);
             variables.push({ reference: key, value });
         });
