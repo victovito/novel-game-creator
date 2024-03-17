@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import NovelState from '../../engine/objects/NovelState';
 import Text from '../../engine/expressions/Text';
 import Choice from '../../engine/scopes/Choice';
+
 import TextRender from './TextRender';
 import ChoiceRender from './ChoiceRender';
 

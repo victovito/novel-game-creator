@@ -205,9 +205,16 @@ body {
     padding: 30px;
 
     .render-option {
-      cursor: pointer;
       text-align: left;
       line-height: 60px;
+    }
+
+    &.selected {
+      .render-option:hover {
+        cursor: unset;
+        background: unset;
+        color: unset;
+      }
     }
   }
 }

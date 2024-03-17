@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import NovelState from '../../engine/objects/NovelState';
 import Choice from '../../engine/scopes/Choice';
+import Option from '../../engine/expressions/Option';
+
 import OptionRender from './OptionRender';
 
 type props = {
@@ -10,10 +13,15 @@ type props = {
 };
 
 function ChoiceRender({ state, show, choice }: props) {
+    const [selected, setSelected] = useState<Option>();
+
+    function onSelect(option: Option) {
+        setSelected(option)
+    }
 
     function getOptions() {
         return choice.renderElements.map((option, i) => (
-            <OptionRender state={state} option={option} key={i} />
+            <OptionRender state={state} option={option} key={i} onSelect={onSelect} selected={selected} />
         ));
     }
 
@@ -24,7 +32,7 @@ function ChoiceRender({ state, show, choice }: props) {
     }
 
     return (
-        <div style={style} className='render-choice'>
+        <div style={style} className={`render-choice ${selected ? "selected" : ""}`}>
             {getOptions()}
         </div>
     );
