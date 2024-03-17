@@ -8,10 +8,13 @@ import { parseNovel } from '../../engine/NovelParser';
 import Novel from '../../engine/objects/Novel';
 
 import ReaderPause from './ReaderPause';
-import NovelRender from '../../components/render/NovelRender';
+import NovelRender from './NovelRender';
 import { useSoundContext } from '../../contexts/SoundContext';
 import { useStateContext } from '../../contexts/reader/StateContext';
 import NovelError from '../../engine/errors/NovelError';
+import ReaderEntry from './ReaderEntry';
+import { Outlet } from 'react-router-dom';
+import { useParsingErrorContext } from '../../contexts/reader/ParsingErrorContext';
 
 function NovelReader() {
     const {novelFile, setNovelFile} = useNovelFileContext();
@@ -19,7 +22,8 @@ function NovelReader() {
     const {novel, setNovel} = useNovelContext();
     const {paused} = usePausedContext();
     const {setState} = useStateContext();
-    const [error, setError] = useState<NovelError>(undefined);
+    const {error, setError} = useParsingErrorContext();
+    const loading = !novel && !error;
 
     function onNovelParsed(novel: Novel) {
         setState(undefined);
@@ -48,15 +52,11 @@ function NovelReader() {
     useEffect(() => {
         if (!novel) return;
         novel.audioManager.globalLevel = sound.enabled ? sound.level : 0;
-    }, [novel])
+    }, [novel]);
 
     return (
         <div className='novel-reader'>
-            {novel ? (
-                !paused ? <NovelRender /> : <ReaderPause />
-            ) : (
-                error ? <div style={{color: "red"}}>{error.message}</div> : <div>Loading...</div>
-            )}
+            {!loading ? <Outlet /> : <div>Loading...</div>}
         </div>
     );
 }

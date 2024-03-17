@@ -1,8 +1,9 @@
 import React from 'react';
+
 import NovelError from '../../engine/errors/NovelError';
+import IconButton from '../IconButton';
 
 import closeIcon from '../../assets/icons/close.svg';
-import IconButton from '../IconButton';
 
 type props = {
     errors: NovelError[],

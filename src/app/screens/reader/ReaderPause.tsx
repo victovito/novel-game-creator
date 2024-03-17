@@ -18,18 +18,20 @@ function ReaderPause() {
     function unpause() {
         novel.audioManager.resumeAll();
         setPaused(false);
+        navigate("..");
     }
-
+    
     function restart() {
         novel.audioManager.stopAll();
         setState(undefined);
         setPaused(false);
+        navigate("..");
     }
 
-    function goToMenu() {
+    function exitNovel() {
         // well at least i tried
         sessionStorage.setItem("reader-paused", JSON.stringify(false));
-        navigate("/");
+        navigate("../..");
     }
 
     useEffect(() => novel.audioManager.pauseAll(), []);
@@ -40,7 +42,7 @@ function ReaderPause() {
                 <IconButton icon={backIcon} onPress={unpause} />
             </div>
             <MenuButton text='Restart novel' onPress={restart} />
-            <MenuButton text='Exit to menu' onPress={goToMenu} />
+            <MenuButton text='Exit novel' onPress={exitNovel} />
         </div>
     );
 }

@@ -8,9 +8,9 @@ import NovelState from '../../engine/objects/NovelState';
 import Choice from '../../engine/scopes/Choice';
 import NovelError from '../../engine/errors/NovelError';
 
-import ReaderToolbar from '../ReaderToolbar';
-import BlockRender from './BlockRender';
-import NovelErrorRender from './NovelErrorRender';
+import ReaderToolbar from '../../components/ReaderToolbar';
+import BlockRender from '../../components/render/BlockRender';
+import NovelErrorRender from '../../components/render/NovelErrorRender';
 
 function NovelRender() {
     const {novel} = useNovelContext();

@@ -2,13 +2,16 @@ import React, { PropsWithChildren, useEffect, useState } from "react";
 
 import Novel from "../../engine/objects/Novel";
 import NovelState, { INovelStateData } from "../../engine/objects/NovelState";
+import NovelParsingError from "../../engine/errors/parsing/NovelParsingError";
 
 import NovelContext from "./NovelContext";
 import StateContext from "./StateContext";
 import PausedContext from "./PausedContext";
+import ParsingErrorContext from "./ParsingErrorContext";
 
 function ReaderContextWrapper({ children }: PropsWithChildren) {
-    const [novel, setNovel] = useState<Novel>(initNovel);
+    const [novel, setNovel] = useState<Novel>(undefined);
+    const [error, setError] = useState<NovelParsingError>(undefined);
     const [state, setState] = useState<NovelState>(initState);
     const [paused, setPaused] = useState<boolean>(initPaused);
 
@@ -24,20 +27,18 @@ function ReaderContextWrapper({ children }: PropsWithChildren) {
 
     return (
         <NovelContext.Provider value={{ novel, setNovel }}>
-            <StateContext.Provider value={{ state, setState }}>
-                <PausedContext.Provider value={{ paused, setPaused }}>
-                    {children}
-                </PausedContext.Provider>
-            </StateContext.Provider>
+            <ParsingErrorContext.Provider value={{ error, setError }}>
+                <StateContext.Provider value={{ state, setState }}>
+                    <PausedContext.Provider value={{ paused, setPaused }}>
+                        {children}
+                    </PausedContext.Provider>
+                </StateContext.Provider>
+            </ParsingErrorContext.Provider>
         </NovelContext.Provider>
     );
 }
 
 export default ReaderContextWrapper;
-
-function initNovel(): Novel {
-    return undefined;
-}
 
 function initState(): NovelState {
     const data = sessionStorage.getItem("reader-state-data");

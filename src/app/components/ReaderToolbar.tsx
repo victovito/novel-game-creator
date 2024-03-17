@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useSoundContext } from '../contexts/SoundContext';
 import { usePausedContext } from '../contexts/reader/PausedContext';
@@ -14,6 +15,12 @@ function ReaderToolbar() {
     const {novel} = useNovelContext();
     const {sound, setSound} = useSoundContext();
     const {setPaused} = usePausedContext();
+    const navigate = useNavigate();
+
+    function pause() {
+        setPaused(true);
+        navigate("pause");
+    }
     
     function toogleSound() {
         const newSound = {
@@ -27,7 +34,7 @@ function ReaderToolbar() {
     return (
         <div className='reader-toolbar'>
             <IconButton icon={sound.enabled ? soundOnIcon : soundOffIcon} onPress={toogleSound} />
-            <IconButton icon={menuIcon} onPress={() => setPaused(true)} />
+            <IconButton icon={menuIcon} onPress={pause} />
         </div>
     );
 }
