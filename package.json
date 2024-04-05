@@ -47,7 +47,8 @@
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
     "typescript": "~4.5.4",
-    "webpack": "^5.90.3"
+    "webpack": "^5.90.3",
+    "url-loader": "^4.1.1"
   },
   "keywords": [],
   "author": {
@@ -57,7 +58,6 @@
   "license": "MIT",
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
-    "react-router-dom": "^6.22.3",
-    "url-loader": "^4.1.1"
+    "react-router-dom": "^6.22.3"
   }
 }
