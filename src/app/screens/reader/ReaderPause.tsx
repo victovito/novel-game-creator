@@ -31,6 +31,7 @@ function ReaderPause() {
     function exitNovel() {
         // well at least i tried
         sessionStorage.setItem("reader-paused", JSON.stringify(false));
+        novel.audioManager.stopAll();
         navigate("../..");
     }
 

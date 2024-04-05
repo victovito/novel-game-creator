@@ -46,6 +46,8 @@ function NovelReader() {
 
     useEffect(() => {
         if (!novelFile) return;
+        setNovel(undefined);
+        setError(undefined);
         parseNovel(novelFile.content, novelFile.path).then(onNovelParsed).catch(onNovelParsingError);
     }, [novelFile]);
 

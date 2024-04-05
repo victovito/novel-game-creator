@@ -8,14 +8,28 @@ import IconButton from '../../components/IconButton';
 import MenuButton from '../../components/MenuButton';
 
 import closeIcon from "../../assets/icons/close.svg";
+import { useStateContext } from '../../contexts/reader/StateContext';
+import { useNovelFileContext } from '../../contexts/NovelFileContext';
 
 function ReaderEntry() {
     const {novel} = useNovelContext();
     const {error} = useParsingErrorContext();
+    const {setState} = useStateContext();
+    const {novelFile} = useNovelFileContext();
     const navigate = useNavigate();
 
     function start() {
+        setState(undefined);
         navigate("novel");
+    }
+
+    function continueNovel() {
+        setState(undefined);
+        navigate("novel");
+    }
+
+    function update() {
+        api.checkForNovelUpdate(novelFile.path, novelFile.content);
     }
 
     function goToMenu() {
@@ -32,7 +46,8 @@ function ReaderEntry() {
                     </div>
                     <div className="menu">
                         <MenuButton text='Start novel' onPress={start} />
-                        <MenuButton text='Continue' disabled />
+                        <MenuButton text='Continue' onPress={continueNovel} />
+                        <MenuButton text='Update' onPress={update} />
                         <MenuButton text='Exit to menu' onPress={goToMenu} />
                     </div>
                 </div>
