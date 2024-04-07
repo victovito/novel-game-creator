@@ -6,6 +6,7 @@ import Choice from '../../engine/scopes/Choice';
 
 import TextRender from './TextRender';
 import ChoiceRender from './ChoiceRender';
+import Value from '../../engine/values/Value';
 
 type props = {
     state: NovelState
@@ -35,10 +36,21 @@ function DialogRender({ state }: props) {
         return elements;
     }
 
+    function getSpeaker() {
+        let speaker = dialog.speaker;
+        dialog.variables.forEach(variable => {
+            const value = state.novel.getVariable(variable.value);
+            if (value && value instanceof Value) {
+                speaker = speaker.replace(`{$${variable.value}}`, value.value);
+            }
+        });
+        return speaker;
+    }
+
     if (dialog) {
         return (
             <div className='render-dialog'>
-                {dialog.speaker ? <span className='speaker'>{dialog.speaker}:</span> : <></>}
+                {dialog.speaker ? <span className='speaker'>{getSpeaker()}:</span> : <></>}
                 {getElements()}
             </div>
         );

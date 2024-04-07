@@ -79,7 +79,7 @@ To reference this block anywhere in the file, just use `#my_new_block`.
 
 ### Dialogs
 
-A dialog is a sequence of texts that can only be defined inside blocks. It contains texts, which are separated by lines. Texts will appear one by one on screen until the whole dialog is displayed. You can add how many text lines you'd like, but dialogs must have at least one text. Dialogs can also be assigned a name that will show on screen if assigned. To define a dialog use the following syntax:
+A dialog is a sequence of texts that can only be defined inside blocks. It contains texts, which are separated by lines. Texts will appear one by one on screen until the whole dialog is displayed. You can add how many text lines you'd like, but dialogs must have at least one text. Dialogs can also be assigned a speaker that will show on screen if assigned. To define a dialog use the following syntax:
 ```novel
 #my_block
     
@@ -90,7 +90,7 @@ A dialog is a sequence of texts that can only be defined inside blocks. It conta
 
 #
 ```
-If you don't want to assign a name to it, you can just do as following:
+If you don't want to assign a speaker to it, you can just do as following:
 ```novel
 #my_block
     
@@ -131,6 +131,16 @@ You can use a variable inside a text by wrapping it around curly brackets: `{$my
 
 #
 ```
+Just like in texts, it's also possible to use variables inside the speaker text. For example:
+```novel
+#my_block
+    
+    @"{$name}"
+        Yes, {$name} is my name.
+    @
+
+#
+```
 
 ### Commands
 
@@ -144,9 +154,11 @@ Check all the [available commands](#available-commands).
 
 Choices are a set of one or more options that are clickable. Each option have a text and can be attached multiple commands that will run if the option is clicked. Choices can only be placed inside dialogs. To create a choice, use the following syntax:
 ```novel
-?
-    {TEXT GOES HERE} [<command> ...]
-?
+@"Speaker"
+    ?
+        {TEXT GOES HERE} [<command> ...]
+    ?
+@
 ```
 To use more than one command, simply place them one after another.
 ```novel
@@ -185,6 +197,13 @@ Choices are great for creating branches on the novel by sending the reader to di
         You two couldn't decide so you don't eat anything.
     @
 #
+```
+Like dialog texts and speakers, you can use variables inside a choice text:
+```novel
+?
+    {Give a chocolate to {$friend1_name}} [goto #friend1happy]
+    {Give a chocolate to {$friend2_name}} [goto #friend2happy]
+?
 ```
 
 ### Comments

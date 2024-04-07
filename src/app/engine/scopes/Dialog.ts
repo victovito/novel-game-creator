@@ -5,12 +5,14 @@ import Command from "../expressions/Command";
 import Expression from "../expressions/Expression";
 import Text from "../expressions/Text";
 import UnexpectedSymbolError from "../errors/parsing/UnexpectedSymbolError";
+import Variable from "../values/Variable";
 
 export default class Dialog extends Scope {
     speaker: string | null;
     texts: Text[] = [];
     commands: Command[] = [];
     choices: Choice[] = [];
+    variables: Variable[];
 
     constructor(scope: Scope) {
         super(scope.starting, scope.ending, scope.innerText);
@@ -36,6 +38,7 @@ export default class Dialog extends Scope {
     
     override processScope(): void {
         this.speaker = this.getSpeaker();
+        this.variables = Variable.getVariablesFromText(this.speaker);
         this.choices = Choice.generateScopes(this.innerText);
         const rootLines = this.innerText.map(x => x);
         this.choices.forEach(choice => {
