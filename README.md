@@ -282,7 +282,9 @@ LOCK
 
 ## Available commands
 
-#### `[goto <target>]`
+### goto
+`[goto <target>]`
+
 Goes immediatly to a block.
 | Argument  | Type       | Required  | Description      |
 | :-------- | :--------  | :-------- | :--------------- |
@@ -305,44 +307,51 @@ Example:
 ```
 <br/>
 
-#### `[play <audio> <transition>]`
+### play
+`[play <audio> <transition>]`
+
 Plays the audio from a variable. The variable **must** have an audio assigned first using the [PRELOAD](#preload) header.
 | Argument      | Type       | Required  | Description                                  |
 | :--------     | :--------  | :-------- | :---------------                             |
 | `audio`       | `variable` | &#x2611;  | Variable containing the audio to be played   |
 | `transition`  | `number`   | &#x2612;  | Transition in seconds. Default is 0          |
-
-Example:
-```novel
-PRELOAD "./roaaaarrr.wav" $my_audio
-
-#jumpscare
-    @
-        When suddenly...
-        [play $my_audio 0.5]
-        A monster appears!
-    @
-#
-```
 <br/>
 
-#### `[stop <audio> <transition>]`
+### loop
+`[loop <audio> <transition>]`
+
+Plays the audio from a variable and loops. The variable **must** have an audio assigned first using the [PRELOAD](#preload) header.
+| Argument      | Type       | Required  | Description                                  |
+| :--------     | :--------  | :-------- | :---------------                             |
+| `audio`       | `variable` | &#x2611;  | Variable containing the audio to be played   |
+| `transition`  | `number`   | &#x2612;  | Transition in seconds. Default is 0          |
+<br/>
+
+### loop
+`[pause <audio>]`
+
+Pause an audio from a variable. The variable **must** have an audio assigned first using the [PRELOAD](#preload) header. If the audio is not playing or is already paused, nothing happens.
+| Argument      | Type       | Required  | Description                                  |
+| :--------     | :--------  | :-------- | :---------------                             |
+| `audio`       | `variable` | &#x2611;  | Variable containing the audio to be played   |
+<br/>
+
+### stop
+`[stop <audio> <transition>]`
+
 Stops an audio.
 | Argument      | Type       | Required  | Description                                  |
 | :--------     | :--------  | :-------- | :---------------                             |
 | `audio`       | `variable` | &#x2611;  | Variable containing the audio to be stoped   |
 | `transition`  | `number`   | &#x2612;  | Transition in seconds. Default is 0          |
+<br/>
 
-Example:
-```novel
-PRELOAD "./calm-song.wav" $my_song
+### set
+`[set <variable> <value>]`
 
-#my_block
-    @
-        You're walking back home
-        You place your hand in your pocket and...
-        [stop $my_song 3]
-        YOU DON'T FEEL YOUR PHONE!
-    @
-#
-```
+Set a variable to a new value. The new value must be of the same type as the old one.
+| Argument      | Type       | Required  | Description                                  |
+| :--------     | :--------  | :-------- | :---------------                             |
+| `variable`    | `variable` | &#x2611;  | Variable to be changed   |
+| `value`       | `any`      | &#x2612;  | The new value   |
+<br/>

@@ -119,8 +119,11 @@ export default class NovelState {
         return state;
     }
 
-    updateVariables() {
-        this.data.variables = this.fromNovelVariables();
+    updatedVariables(): NovelState {
+        const data = {...this.data};
+        data.variables = this.fromNovelVariables();
+        const state = new NovelState(this.novel, data);
+        return state;
     }
 
     private initEmptyState() {

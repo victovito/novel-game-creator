@@ -17,7 +17,23 @@ export default class AudioManager {
     play(audio: AudioResource) {
         const audioElement = this.audios.get(audio.name).element;
         audio.playing = true;
+        audio.loop = false;
+        audioElement.loop = false;
         audioElement.play();
+    }
+
+    loop(audio: AudioResource) {
+        const audioElement = this.audios.get(audio.name).element;
+        audio.playing = true;
+        audio.loop = true;
+        audioElement.loop = true;
+        audioElement.play();
+    }
+    
+    pause(audio: AudioResource) {
+        const audioElement = this.audios.get(audio.name).element;
+        audio.playing = false;
+        audioElement.pause();
     }
     
     stop(audio: AudioResource) {

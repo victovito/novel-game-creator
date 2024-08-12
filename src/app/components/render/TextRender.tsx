@@ -14,7 +14,15 @@ function TextRender({ text, state, distance = 0 }: props) {
     const {typing, setTyping} = useTypingContext();
     const [slice, setSlice] = useState(0);
     const [typeTimeout, setTypeTimeout] = useState<NodeJS.Timeout>(null);
+
     let content = text.content;
+
+    text.variables.forEach(variable => {
+        const value = state.novel.getVariable(variable.value);
+        if (value && value instanceof Value) {
+            content = content.replace(`{$${variable.value}}`, value.value);
+        }
+    });
     
     function nextNonSpaceIndex() {
         for (let i = slice + 1; i < content.length; i++) {
@@ -59,15 +67,6 @@ function TextRender({ text, state, distance = 0 }: props) {
             }
         }
     }, [distance, slice])
-
-
-
-    text.variables.forEach(variable => {
-        const value = state.novel.getVariable(variable.value);
-        if (value && value instanceof Value) {
-            content = content.replace(`{$${variable.value}}`, value.value);
-        }
-    });
 
     return (
         <div className="render-text">

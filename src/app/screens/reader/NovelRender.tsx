@@ -33,11 +33,8 @@ function NovelRender() {
         novel.events.gotoBlock.subscribe(block => {
             setState(state.fromBlock(block.reference));
         });
-        novel.events.playSound.subscribe(audio => {
-            console.log("playing " + audio.name);
-        });
-        novel.events.stopSound.subscribe(audio => {
-            console.log("stopping " + audio.name);
+        novel.events.variableUpdated.subscribe(variable => {
+            setState(state.updatedVariables());
         });
     }
 
