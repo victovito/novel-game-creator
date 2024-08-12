@@ -1,7 +1,7 @@
 {
   "name": "novel-game-creator",
-  "productName": "novel-game-creator",
-  "version": "0.0.3",
+  "productName": "Novel Game Creator",
+  "version": "0.4.0",
   "description": "My Electron application description",
   "main": ".webpack/main",
   "scripts": {
@@ -47,8 +47,8 @@
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
     "typescript": "~4.5.4",
-    "webpack": "^5.90.3",
-    "url-loader": "^4.1.1"
+    "url-loader": "^4.1.1",
+    "webpack": "^5.90.3"
   },
   "keywords": [],
   "author": {
@@ -58,6 +58,7 @@
   "license": "MIT",
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
+    "novel-game-creator": "file:",
     "react-router-dom": "^6.22.3"
   }
 }

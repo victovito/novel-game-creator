@@ -33,9 +33,6 @@ function NovelRender() {
         novel.events.gotoBlock.subscribe(block => {
             setState(state.fromBlock(block.reference));
         });
-        novel.events.variableUpdated.subscribe(variable => {
-            setState(state.updatedVariables());
-        });
     }
 
     function next() {

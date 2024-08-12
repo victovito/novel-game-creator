@@ -94,7 +94,7 @@ export default class NovelState {
             return new NovelState(state.novel, data);
         }
         const commands: Command[] = [];
-        let state: NovelState = getNextElement(this);
+        let state: NovelState = getNextElement(this.updatedVariables());
         while (state.currentCommand) {
             commands.push(state.currentCommand);
             state = getNextElement(state);
