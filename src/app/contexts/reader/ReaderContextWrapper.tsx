@@ -8,12 +8,14 @@ import NovelContext from "./NovelContext";
 import StateContext from "./StateContext";
 import PausedContext from "./PausedContext";
 import ParsingErrorContext from "./ParsingErrorContext";
+import TypingContext from "./TypingContext";
 
 function ReaderContextWrapper({ children }: PropsWithChildren) {
     const [novel, setNovel] = useState<Novel>(undefined);
     const [error, setError] = useState<NovelParsingError>(undefined);
     const [state, setState] = useState<NovelState>(initState);
     const [paused, setPaused] = useState<boolean>(initPaused);
+    const [typing, setTyping] = useState<boolean>(false);
 
     useEffect(() => {
         paused != undefined && sessionStorage.setItem("reader-paused", JSON.stringify(paused));
@@ -30,7 +32,9 @@ function ReaderContextWrapper({ children }: PropsWithChildren) {
             <ParsingErrorContext.Provider value={{ error, setError }}>
                 <StateContext.Provider value={{ state, setState }}>
                     <PausedContext.Provider value={{ paused, setPaused }}>
-                        {children}
+                        <TypingContext.Provider value={{ typing, setTyping }}>
+                            {children}
+                        </TypingContext.Provider>
                     </PausedContext.Provider>
                 </StateContext.Provider>
             </ParsingErrorContext.Provider>

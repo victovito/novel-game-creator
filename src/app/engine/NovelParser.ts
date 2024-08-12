@@ -7,7 +7,6 @@ import NovelError from "./errors/NovelError";
 
 export function parseNovel(file: string, path: string) {
     return new Promise<Novel>(async (resolve, reject: (error: NovelError) => void) => {
-        console.log("Parsing...");
         const novel = new Novel();
         novel.rawContent = file;
         novel.path = path;

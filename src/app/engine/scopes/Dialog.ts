@@ -12,7 +12,7 @@ export default class Dialog extends Scope {
     texts: Text[] = [];
     commands: Command[] = [];
     choices: Choice[] = [];
-    variables: Variable[];
+    speakerVariables: Variable[];
 
     constructor(scope: Scope) {
         super(scope.starting, scope.ending, scope.innerText);
@@ -38,7 +38,7 @@ export default class Dialog extends Scope {
     
     override processScope(): void {
         this.speaker = this.getSpeaker();
-        this.variables = Variable.getVariablesFromText(this.speaker);
+        this.speakerVariables = Variable.getVariablesFromText(this.speaker);
         this.choices = Choice.generateScopes(this.innerText);
         const rootLines = this.innerText.map(x => x);
         this.choices.forEach(choice => {

@@ -191,9 +191,19 @@ body {
     flex-direction: column;
     gap: 20px;
 
+    .render-text {
+      position: relative;
+      span {
+        display: inline;
+      }
+      .unrendered {
+        color: transparent;
+      }
+    }
+
     .speaker {
       font-weight: bold;
-      opacity: 50%;
+      color: $tertiary;
     }
   }
 

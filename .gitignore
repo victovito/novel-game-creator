@@ -90,3 +90,6 @@ typings/
 
 # Electron-Forge
 out/
+
+# Novels used for testing
+novels/

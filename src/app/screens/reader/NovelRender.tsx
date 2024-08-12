@@ -11,10 +11,12 @@ import NovelError from '../../engine/errors/NovelError';
 import ReaderToolbar from '../../components/ReaderToolbar';
 import BlockRender from '../../components/render/BlockRender';
 import NovelErrorRender from '../../components/render/NovelErrorRender';
+import { useTypingContext } from '../../contexts/reader/TypingContext';
 
 function NovelRender() {
     const {novel} = useNovelContext();
     const {state, setState} = useStateContext();
+    const {typing, setTyping} = useTypingContext();
     const [errors, setErrors] = useState<NovelError[]>([]);
 
     function setUpEvents() {
@@ -41,7 +43,11 @@ function NovelRender() {
 
     function next() {
         if (state.currentTextOrChoice instanceof Choice) return;
-        state.next();
+        if (typing) {
+            setTyping(false);
+        } else {
+            state.next();
+        }
     }
 
     function onErrorClose(error: NovelError) {
@@ -68,7 +74,7 @@ function NovelRender() {
         }
     }, [state]);
 
-    useEffect(setUpNextListeners(next), [state, novel]);
+    useEffect(setUpNextListeners(next), [state, novel, typing]);
 
     return (
         <div className='reader-main'>
