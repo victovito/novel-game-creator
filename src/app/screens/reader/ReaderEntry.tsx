@@ -58,6 +58,7 @@ function ReaderEntry() {
                     </div>
                     <div className="content">
                         <div className='message'>{error.message}</div>
+                        <div className="line">at line {error.line.number}</div>
                     </div>
                 </div>
             )}

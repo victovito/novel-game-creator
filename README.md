@@ -327,7 +327,7 @@ Plays the audio from a variable and loops. The variable **must** have an audio a
 | `transition`  | `number`   | &#x2612;  | Transition in seconds. Default is 0          |
 <br/>
 
-### loop
+### pause
 `[pause <audio>]`
 
 Pause an audio from a variable. The variable **must** have an audio assigned first using the [PRELOAD](#preload) header. If the audio is not playing or is already paused, nothing happens.

@@ -75,7 +75,7 @@ function NovelRender() {
             <ReaderToolbar />
             <div className="reader-content-container" onClick={next}>
                 {state && novel ? (
-                    <BlockRender state={state} />
+                    <BlockRender state={state} key={state.currentBlock.reference} />
                 ) : null}
             </div>
             {errors ? (
